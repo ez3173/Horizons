@@ -24,6 +24,10 @@ class Comment
     #[ORM\JoinColumn(nullable: false)]
     private ?Journey $journey = null;
 
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,6 +65,18 @@ class Comment
     public function setJourney(?Journey $journey): static
     {
         $this->journey = $journey;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
 
         return $this;
     }

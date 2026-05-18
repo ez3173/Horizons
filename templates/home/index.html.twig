@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Horizons - Découvrez le monde{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-center">Bienvenue sur Horizons 🗺️</h1>
+    <p class="text-center text-muted">Découvrez et partagez des carnets de voyage</p>
+
+    <div class="text-center mt-4">
+        {% if app.user %}
+            {# Si l'utilisateur est connecté #}
+            <p>Bonjour {{ app.user.username }} !</p>
+            <a href="{{ path('app_logout') }}" class="btn btn-danger">Se déconnecter</a>
+        {% else %}
+            {# Si l'utilisateur n'est pas connecté #}
+            <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
+            <a href="{{ path('app_register') }}" class="btn btn-success">S'inscrire</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -3,6 +3,38 @@
 {% block title %}Carnets de voyage — Horizons{% endblock %}
 
 {% block body %}
+{# Formulaire de recherche et filtres #}
+<form method="get" action="{{ path('app_journey_index') }}" class="row g-2 mb-4">
+    
+    {# Barre de recherche #}
+    <div class="col-md-6">
+        <input type="text"
+               name="search"
+               class="form-control"
+               placeholder="Rechercher un carnet..."
+               value="{{ search ?? '' }}">
+    </div>
+
+    {# Filtre par catégorie #}
+    <div class="col-md-4">
+        <select name="category" class="form-select">
+            <option value="">Toutes les catégories</option>
+            {% for category in categories %}
+                <option value="{{ category.id }}"
+                    {{ currentCategory is defined and currentCategory == category.id ? 'selected' : '' }}>
+                    {{ category.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    {# Bouton rechercher #}
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Rechercher</button>
+    </div>
+
+</form>
+
 <div class="container mt-4">
 
     {# Titre + nombre de résultats #}
@@ -70,4 +102,5 @@
     </div>
 
 </div>
+
 {% endblock %}

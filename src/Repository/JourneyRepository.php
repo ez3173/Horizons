@@ -16,28 +16,28 @@ class JourneyRepository extends ServiceEntityRepository
         parent::__construct($registry, Journey::class);
     }
 
-    //    /**
-    //     * @return Journey[] Returns an array of Journey objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('j')
-    //            ->andWhere('j.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('j.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+       /**
+        * Recherche les carnets publiés avec filtres optionnels
+        * @param string|null $search    mot-clé recherché dans le titre/description
+        * @param int|null    $category  id de la catégorie choisie
+        */
+       public function findByFilters(?string $search = null,?int $categoryId = null)
+       {
+        $qb = $this->createQueryBuilder('j')
+            ->andWhere('j.published = :published')
+            ->setParameter('published', true)
+            ->orderBy('j.createdAt','DESC');
 
-    //    public function findOneBySomeField($value): ?Journey
-    //    {
-    //        return $this->createQueryBuilder('j')
-    //            ->andWhere('j.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        if($search){
+            $qb->andWhere('j.title LIKE :search OR j.description LIKE :search')
+                ->setParameter('search',  '%' . $search . '%');
+        }
+        if($categoryId){
+            $qb->andWhere('j.category = :category')
+               ->setParameter('category', $categoryId);
+        }
+
+        return $qb->getQuery()->getResult();
+       }
+
 }

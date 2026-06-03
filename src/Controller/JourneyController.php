@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CategoryRepository;
 use App\Repository\JourneyRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,24 +16,30 @@ use Symfony\Component\Routing\Attribute\Route;
     #[Route('/journeys', name: 'app_journey_index')]
     public function index(
         JourneyRepository $journeyRepository,
+        CategoryRepository $categoryRepository,
         PaginatorInterface $paginator,
         Request $request
     ): Response
     {
-       $query = $journeyRepository->findBy(
-        ['published'=>true],
-        ['createdAt'=> 'DESC']
-       );
+        $search= $request->query->get('search');
+        $categoryId= $request->query->get('category');
+    
+        $query = $journeyRepository->findByFilters($search, $categoryId);
 
+        $journeys = $paginator->paginate(
+            $query,
+            $request->query->getInt('page',1),
+            6
+        );
+        // we get all the categories
+        $categories = $categoryRepository->findAll();
 
-       $journeys = $paginator->paginate(
-        $query,
-        $request->query->getInt('page',1),
-        6
-       );
-       return $this->render('journey/index.html.twig',[
+        return $this->render('journey/index.html.twig',[
         'journeys' => $journeys,
-       ]);
+        'categories'=> $categories,
+        'searcg'=> $search,
+        'currentCategory'=> $categoryId
+        ]);
     }
     #[Route('/journey/{slug}', name: 'app_journey_show')]
     public function show(string $slug, JourneyRepository $journeyRepository): Response

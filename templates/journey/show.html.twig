@@ -27,7 +27,12 @@
                 <span>💬 {{ journey.comments|length }} commentaires</span>
             </div>
         </div>
-
+        {# Bouton modifier — visible uniquement pour l'auteur ou un admin #}
+        {% if app.user and (app.user == journey.author or is_granted('ROLE_ADMIN')) %}
+            <a href="{{ path('app_journey_edit', {slug: journey.slug}) }}" class="btn btn-warning btn-sm">
+                Modifier ce carnet
+            </a>
+        {% endif %}
         {# Image de couverture #}
         {% if journey.coverImage %}
         <div class="col-md-4">

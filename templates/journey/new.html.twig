@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un carnet — Horizons{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Créer un nouveau carnet de voyage</h1>
+
+    {# Messages flash (succès/erreur) #}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endfor %}
+
+    {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.coverImageFile) }}
+        {{ form_row(form.budget) }}
+        {{ form_row(form.duration) }}
+        {{ form_row(form.category) }}
+        {{ form_row(form.published) }}
+
+        <button type="submit" class="btn btn-primary mt-3">Créer le carnet</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

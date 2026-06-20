@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier — {{ journey.title }}{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Modifier le carnet "{{ journey.title }}"</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endfor %}
+
+    {# Affiche l'image actuelle si elle existe #}
+    {% if journey.coverImage %}
+        <p>Image actuelle :</p>
+        <img src="{{ asset('uploads/journeys/' ~ journey.coverImage) }}"
+             style="max-width: 200px;" class="mb-3 rounded">
+    {% endif %}
+
+    {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.coverImageFile) }}
+        {{ form_row(form.budget) }}
+        {{ form_row(form.duration) }}
+        {{ form_row(form.category) }}
+        {{ form_row(form.published) }}
+
+        <button type="submit" class="btn btn-primary mt-3">Enregistrer les modifications</button>
+    {{ form_end(form) }}
+    <hr class="my-4">
+
+    <form method="post"
+        action="{{ path('app_journey_delete', {slug: journey.slug}) }}"
+        onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce carnet ? Cette action est irréversible.');">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ journey.id) }}">
+        <button class="btn btn-outline-danger">Supprimer ce carnet</button>
+    </form>
+</div>
+{% endblock %}

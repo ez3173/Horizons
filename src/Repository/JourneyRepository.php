@@ -26,7 +26,7 @@ class JourneyRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('j')
             ->andWhere('j.published = :published')
             ->setParameter('published', true)
-            ->orderBy('j.createdAt','DESC');
+            ->orderBy('j.createdAt','DESC'); 
 
         if($search){
             $qb->andWhere('j.title LIKE :search OR j.description LIKE :search')

@@ -3,101 +3,83 @@
 {% block title %}{{ journey.title }} — Horizons{% endblock %}
 
 {% block body %}
-<div class="container mt-4">
+<div class="page-container">
 
-    {# Bouton retour #}
-    <a href="{{ path('app_journey_index') }}" class="btn btn-outline-secondary mb-3">
-        ← Retour aux carnets
+    <a href="{{ path('app_journey_index') }}" class="back-link">
+        <i class="ti ti-arrow-left"></i> Retour aux carnets
     </a>
 
-    {# En-tête du carnet #}
-    <div class="row mb-4">
-        <div class="col-md-8">
+    <div class="journey-detail-header">
+        <div class="journey-detail-main">
             {% if journey.category %}
-                <span class="badge bg-primary mb-2">{{ journey.category.name }}</span>
+                <span class="journey-category-tag journey-category-secondary">{{ journey.category.name }}</span>
             {% endif %}
-            <h1>{{ journey.title }}</h1>
-            <p class="text-muted">
+            <h1 class="journey-detail-title">{{ journey.title }}</h1>
+            <p class="journey-detail-meta">
                 Par <strong>{{ journey.author.username }}</strong> —
                 {{ journey.createdAt|date('d/m/Y') }}
             </p>
-            <div class="d-flex gap-3 mb-3">
-                <span>🗓️ {{ journey.duration }} jours</span>
-                <span>💶 {{ journey.budget }} €</span>
-                <span>💬 {{ journey.comments|length }} commentaires</span>
+            <p class="journey-detail-description">{{ journey.description }}</p>
+
+            <div class="journey-detail-stats">
+                <span><i class="ti ti-calendar"></i> {{ journey.duration }} jours</span>
+                <span><i class="ti ti-coin"></i> {{ journey.budget }} €</span>
+                <span><i class="ti ti-message-circle"></i> {{ journey.comments|length }} commentaires</span>
             </div>
+
+            {% if app.user and (app.user == journey.author or is_granted('ROLE_ADMIN')) %}
+                <a href="{{ path('app_journey_edit', {slug: journey.slug}) }}" class="btn-outline mt-3">
+                    Modifier ce carnet
+                </a>
+            {% endif %}
         </div>
-        {# Bouton modifier — visible uniquement pour l'auteur ou un admin #}
-        {% if app.user and (app.user == journey.author or is_granted('ROLE_ADMIN')) %}
-            <a href="{{ path('app_journey_edit', {slug: journey.slug}) }}" class="btn btn-warning btn-sm">
-                Modifier ce carnet
-            </a>
-        {% endif %}
-        {# Image de couverture #}
-        {% if journey.coverImage %}
-        <div class="col-md-4">
-            <img src="{{ asset('uploads/journeys/' ~ journey.coverImage) }}"
-                 class="img-fluid rounded"
-                 alt="{{ journey.title }}">
+
+        <div class="journey-detail-image">
+            {% if journey.coverImage %}
+                <img src="{{ asset('uploads/journeys/' ~ journey.coverImage) }}" alt="{{ journey.title }}">
+            {% endif %}
         </div>
-        {% endif %}
     </div>
 
-    {# Description #}
-    <div class="mb-5">
-        <h2>Description</h2>
-        <p>{{ journey.description }}</p>
-    </div>
-
-    {# Étapes #}
     {% if journey.steps|length > 0 %}
-    <div class="mb-5">
-        <h2>Étapes du voyage</h2>
-        {% for step in journey.steps %}
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5 class="card-title">{{ step.title }}</h5>
-                <p class="card-text">{{ step.content }}</p>
+    <div class="section-block">
+        <p class="page-kicker">Étapes du voyage</p>
+        <div class="steps-list">
+            {% for step in journey.steps %}
+            <div class="step-item">
+                <div class="step-number">{{ loop.index }}</div>
+                <div>
+                    <h3 class="step-title">{{ step.title }}</h3>
+                    <p class="step-text">{{ step.content }}</p>
+                </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
     {% endif %}
 
-    {# Commentaires #}
-    <div class="mb-5">
-        <h2>Commentaires ({{ journey.comments|length }})</h2>
+    <div class="section-block">
+        <p class="page-kicker">Commentaires ({{ journey.comments|length }})</p>
 
-        {% for comment in journey.comments %}
-        <div class="card mb-2">
-            <div class="card-body">
-                <p class="mb-1">{{ comment.content }}</p>
-                <small class="text-muted">
-                    {{ comment.author.username }} —
-                    {{ comment.createdAt|date('d/m/Y') }}
-                </small>
+        <div class="comments-list">
+            {% for comment in journey.comments %}
+            <div class="comment-item">
+                <p class="comment-text">{{ comment.content }}</p>
+                <p class="comment-meta">{{ comment.author.username }} — {{ comment.createdAt|date('d/m/Y') }}</p>
             </div>
+            {% else %}
+                <p class="text-muted">Aucun commentaire pour le moment.</p>
+            {% endfor %}
         </div>
-        {% else %}
-            <p class="text-muted">Aucun commentaire pour le moment.</p>
-        {% endfor %}
 
-        {# Formulaire de commentaire — uniquement si connecté #}
         {% if app.user %}
-            <div class="mt-3">
-                <h5>Laisser un commentaire</h5>
-                <form method="post" action="#">
-                    <div class="mb-3">
-                        <textarea class="form-control" name="content" rows="3"
-                                  placeholder="Votre commentaire..."></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Envoyer</button>
-                </form>
-            </div>
+            <form method="post" action="#" class="comment-form">
+                <textarea class="comment-textarea" name="content" rows="3" placeholder="Votre commentaire..."></textarea>
+                <button type="submit" class="btn-accent mt-2">Envoyer</button>
+            </form>
         {% else %}
             <p class="mt-3">
-                <a href="{{ path('app_login') }}">Connectez-vous</a>
-                pour laisser un commentaire.
+                <a href="{{ path('app_login') }}">Connectez-vous</a> pour laisser un commentaire.
             </p>
         {% endif %}
     </div>

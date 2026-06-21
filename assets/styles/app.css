@@ -133,3 +133,361 @@ h1, h2, h3, h4, h5 {
     background-color: #A8451F;
     color: var(--color-accent-light) !important;
 }
+/* ============================================
+   PAGE CONTAINER / HEADER GÉNÉRIQUE
+   ============================================ */
+.page-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2.5rem 1.75rem;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 1.75rem;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 1.25rem;
+}
+
+.page-kicker {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.page-title {
+    font-family: var(--font-title);
+    font-weight: 500;
+    font-size: 30px;
+    color: var(--color-text-dark);
+}
+
+.page-count {
+    font-size: 12px;
+    color: var(--color-text-light);
+}
+
+/* ============================================
+   NAVBAR
+   ============================================ */
+.search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1.75rem;
+    flex-wrap: wrap;
+}
+
+.search-input {
+    flex: 1;
+    min-width: 200px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-soft);
+    border-radius: 3px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--color-text-dark);
+}
+
+.search-select {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-soft);
+    border-radius: 3px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--color-text-dark);
+}
+
+/* ============================================
+   GRILLE DES CARNETS 
+   ============================================ */
+.journey-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.journey-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    overflow: hidden;
+    text-decoration: none;
+    display: block;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.journey-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(58, 46, 32, 0.08);
+}
+
+.journey-card-image {
+    height: 150px;
+    background: var(--color-border-soft);
+    position: relative;
+}
+
+.journey-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.journey-category-tag {
+    position: static;
+    display: inline-block;
+    top: 10px;
+    left: 10px;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    padding: 4px 10px;
+    border-radius: 2px;
+    text-transform: uppercase;
+}
+
+.journey-category-accent {
+    background: var(--color-accent);
+    color: var(--color-accent-light);
+}
+
+.journey-category-secondary {
+    background: var(--color-secondary);
+    color: var(--color-secondary-light);
+}
+
+.journey-card-body {
+    padding: 14px 16px 10px;
+}
+
+.journey-card-title {
+    font-family: var(--font-title);
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--color-text-dark);
+    margin-bottom: 6px;
+    line-height: 1.3;
+}
+
+.journey-card-text {
+    font-size: 12px;
+    color: var(--color-text-light);
+    line-height: 1.5;
+}
+
+.journey-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--color-border);
+    padding: 10px 16px;
+    font-size: 11px;
+    color: var(--color-text-light);
+}
+
+/* ============================================
+   PAGINATION 
+   ============================================ */
+.pagination-wrapper {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.pagination-wrapper a, .pagination-wrapper span {
+    color: var(--color-text-medium);
+    font-size: 13px;
+}
+
+
+@media (max-width: 992px) {
+    .journey-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .journey-grid {
+        grid-template-columns: 1fr;
+    }
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
+/* ============================================
+   PAGE DÉTAIL JOURNEY
+   ============================================ */
+.back-link {
+    font-size: 12px;
+    color: var(--color-text-light);
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 18px;
+}
+
+.journey-detail-header {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 24px;
+    margin-bottom: 2rem;
+}
+
+.journey-detail-title {
+    font-family: var(--font-title);
+    font-weight: 500;
+    font-size: 28px;
+    color: var(--color-text-dark);
+    margin: 12px 0 10px;
+    line-height: 1.2;
+}
+
+.journey-detail-meta {
+    font-size: 12px;
+    color: var(--color-text-light);
+    margin-bottom: 18px;
+}
+
+.journey-detail-description {
+    font-size: 13px;
+    color: var(--color-text-medium);
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.journey-detail-stats {
+    display: flex;
+    gap: 18px;
+    font-size: 12px;
+    color: var(--color-text-medium);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    padding: 12px 0;
+}
+
+.journey-detail-image {
+    background: var(--color-border-soft);
+    border-radius: 4px;
+    min-height: 200px;
+    overflow: hidden;
+}
+
+.journey-detail-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.btn-outline {
+    display: inline-block;
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
+    font-size: 12px;
+    padding: 8px 16px;
+    border-radius: 3px;
+    text-decoration: none;
+}
+
+.btn-outline:hover {
+    background: var(--color-accent);
+    color: var(--color-accent-light);
+}
+
+/* Sections  */
+.section-block {
+    margin-bottom: 2.5rem;
+}
+
+.steps-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.step-item {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.step-item:last-child {
+    border-bottom: none;
+}
+
+.step-number {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color-surface);
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
+    font-family: var(--font-title);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.step-title {
+    font-family: var(--font-title);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-dark);
+    margin-bottom: 4px;
+}
+
+.step-text {
+    font-size: 12px;
+    color: var(--color-text-light);
+    line-height: 1.6;
+}
+
+/* Commentaires */
+.comment-item {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+}
+
+.comment-text {
+    font-size: 13px;
+    color: var(--color-text-medium);
+    margin-bottom: 6px;
+}
+
+.comment-meta {
+    font-size: 11px;
+    color: var(--color-text-light);
+}
+
+.comment-form {
+    margin-top: 16px;
+}
+
+.comment-textarea {
+    width: 100%;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-soft);
+    border-radius: 3px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--color-text-dark);
+    font-family: var(--font-body);
+}
+
+
+@media (max-width: 768px) {
+    .journey-detail-header {
+        grid-template-columns: 1fr;
+    }
+    .journey-detail-image {
+        order: -1;
+        min-height: 160px;
+    }
+}

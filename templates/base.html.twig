@@ -9,7 +9,27 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+
+        <nav class="horizons-navbar">
+            <a href="{{ path('app_home') }}" class="navbar-logo">Horizons</a>
+
+            <div class="navbar-links">
+                <a href="{{ path('app_journey_index') }}">Carnets</a>
+
+                {% if app.user %}
+                    <a href="{{ path('app_journey_my') }}">Mes carnets</a>
+                    <a href="{{ path('app_journey_new') }}" class="navbar-btn-accent">+ Nouveau carnet</a>
+                    <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                {% else %}
+                    <a href="{{ path('app_login') }}">Se connecter</a>
+                    <a href="{{ path('app_register') }}" class="navbar-btn-accent">S'inscrire</a>
+                {% endif %}
+            </div>
+        </nav>
+
+        <main>
+            {% block body %}{% endblock %}
+        </main>
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}

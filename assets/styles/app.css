@@ -1,3 +1,135 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');
+
+
+:root {
+    --color-background: #F6F1E7;     
+    --color-surface: #FFFDF8;        
+    --color-border: #E4D9C4;          
+    --color-border-soft: #D9CFBC;      
+
+    --color-accent: #C2542F;         
+    --color-accent-light: #FBE9DE;     
+
+    --color-secondary: #5B6B4D;        
+    --color-secondary-light: #EAF0E0; 
+
+    --color-text-dark: #3A2E20;        
+    --color-text-medium: #6B5B3F;      
+    --color-text-light: #9C7A52;       
+    --color-text-placeholder: #B8A888; 
+
+    --font-title: 'Fraunces', serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+/* ============================================
+   STYLES DE BASE
+   ============================================ */
 body {
-    background-color: skyblue;
+    background-color: var(--color-background);
+    font-family: var(--font-body);
+    color: var(--color-text-medium);
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: var(--font-title);
+    color: var(--color-text-dark);
+    font-weight: 500;
+}
+/* ============================================
+   NAVBAR
+   ============================================ */
+.horizons-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 28px;
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-background);
+}
+
+.navbar-logo {
+    font-family: var(--font-title);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    text-decoration: none;
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.navbar-links a {
+    font-size: 13px;
+    color: var(--color-text-medium);
+    text-decoration: none;
+}
+
+.navbar-links a:hover {
+    color: var(--color-accent);
+}
+
+.navbar-btn-accent {
+    background-color: var(--color-accent);
+    color: var(--color-accent-light) !important;
+    padding: 9px 18px;
+    border-radius: 3px;
+}
+
+.navbar-btn-accent:hover {
+    background-color: #A8451F;
+    color: var(--color-accent-light) !important;
+}
+/* ============================================
+   HERO (page d'accueil)
+   ============================================ */
+.hero {
+    text-align: center;
+    padding: 4rem 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.hero-kicker {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+.hero-title {
+    font-family: var(--font-title);
+    font-weight: 500;
+    font-size: 38px;
+    color: var(--color-text-dark);
+    line-height: 1.15;
+    margin-bottom: 16px;
+}
+
+.hero-text {
+    font-size: 14px;
+    color: var(--color-text-medium);
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+/* Bouton  réutilisable partout dans le site */
+.btn-accent {
+    display: inline-block;
+    background-color: var(--color-accent);
+    color: var(--color-accent-light) !important;
+    font-size: 13px;
+    padding: 11px 26px;
+    border-radius: 3px;
+    text-decoration: none;
+}
+
+.btn-accent:hover {
+    background-color: #A8451F;
+    color: var(--color-accent-light) !important;
 }

@@ -598,6 +598,8 @@ h1, h2, h3, h4, h5 {
     cursor: pointer;
     vertical-align: middle;
     position: relative;
+    flex-shrink: 0;
+    margin-top: 2px;
 }
 
 .horizons-form input[type="checkbox"]:checked {
@@ -627,4 +629,47 @@ h1, h2, h3, h4, h5 {
 .journey-status-draft {
     background: var(--color-border-soft);
     color: var(--color-text-medium);
+}
+/* Alignement checkbox + label */
+.form-check-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    margin-top: 6px;
+}
+
+.form-check-row label {
+    font-size: 12px;
+    color: var(--color-text-medium);
+    margin: 0;
+    cursor: pointer;
+}
+.form-check-row input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    border: 1px solid var(--color-border-soft);
+    border-radius: 3px;
+    background: var(--color-surface);
+    cursor: pointer;
+    position: relative;
+    margin: 0;
+}
+
+.form-check-row input[type="checkbox"]:checked {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.form-check-row input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    color: white;
+    font-size: 11px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

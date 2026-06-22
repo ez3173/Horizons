@@ -1,19 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}S'inscrire — Horizons{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+<div class="page-container" style="max-width: 450px;">
+
+    <p class="page-kicker">Rejoindre la communauté</p>
+    <h1 class="page-title">Créer un compte</h1>
 
     {{ form_errors(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+    {{ form_start(registrationForm, {'attr': {'class': 'horizons-form', 'style': 'margin-top: 1.5rem;'}}) }}
 
-        <button type="submit" class="btn">Register</button>
+        {{ form_row(registrationForm.username, {'label': 'Nom d\'utilisateur'}) }}
+        {{ form_row(registrationForm.email, {'label': 'Email'}) }}
+        {{ form_row(registrationForm.plainPassword, {'label': 'Mot de passe'}) }}
+        <div class="form-check-row">
+            {{ form_widget(registrationForm.agreeTerms) }}
+            {{ form_label(registrationForm.agreeTerms, 'J\'accepte les conditions d\'utilisation') }}
+            {{ form_errors(registrationForm.agreeTerms) }}
+        </div>
+
+        <button type="submit" class="btn-accent" style="width:100%;margin-top:8px;">
+            Créer mon compte
+        </button>
+
     {{ form_end(registrationForm) }}
+
+    <p style="font-size:12px;color:var(--color-text-light);text-align:center;margin-top:16px;">
+        Déjà un compte ?
+        <a href="{{ path('app_login') }}" style="color:var(--color-accent);">Se connecter</a>
+    </p>
+
+</div>
 {% endblock %}

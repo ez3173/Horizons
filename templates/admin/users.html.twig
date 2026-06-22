@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateurs — Admin{% endblock %}
+
+{% block body %}
+<div class="page-container">
+
+    <div class="page-header">
+        <div>
+            <p class="page-kicker">Administration</p>
+            <h1 class="page-title">Utilisateurs ({{ users|length }})</h1>
+        </div>
+        <a href="{{ path('app_admin_dashboard') }}" class="btn-outline">← Dashboard</a>
+    </div>
+
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Rôle</th>
+                <th>Inscrit le</th>
+                <th>Carnets</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <span class="journey-category-tag {{ 'ROLE_ADMIN' in user.roles ? 'journey-category-accent' : 'journey-status-draft' }}">
+                        {{ 'ROLE_ADMIN' in user.roles ? 'Admin' : 'User' }}
+                    </span>
+                </td>
+                <td>{{ user.createdAt|date('d/m/Y') }}</td>
+                <td>{{ user.journeys|length }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}

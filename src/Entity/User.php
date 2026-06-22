@@ -188,7 +188,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Journey>
      */
-    public function getJourney(): Collection
+    public function getJourneys(): Collection
     {
         return $this->journeys;
     }

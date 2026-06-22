@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Carnets — Admin{% endblock %}
+
+{% block body %}
+<div class="page-container">
+
+    <div class="page-header">
+        <div>
+            <p class="page-kicker">Administration</p>
+            <h1 class="page-title">Carnets ({{ journeys|length }})</h1>
+        </div>
+        <a href="{{ path('app_admin_dashboard') }}" class="btn-outline">← Dashboard</a>
+    </div>
+
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th>Catégorie</th>
+                <th>Statut</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for journey in journeys %}
+            <tr>
+                <td>{{ journey.title }}</td>
+                <td>{{ journey.author.username }}</td>
+                <td>{{ journey.category ? journey.category.name : '—' }}</td>
+                <td>
+                    <span class="journey-category-tag {{ journey.published ? 'journey-category-secondary' : 'journey-status-draft' }}">
+                        {{ journey.published ? 'Publié' : 'Brouillon' }}
+                    </span>
+                </td>
+                <td>{{ journey.createdAt|date('d/m/Y') }}</td>
+                <td>
+                    <a href="{{ path('app_journey_edit', {slug: journey.slug}) }}"
+                       style="font-size:12px;color:var(--color-accent);">Modifier</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}

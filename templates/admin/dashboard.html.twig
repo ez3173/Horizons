@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard Admin — Horizons{% endblock %}
+
+{% block body %}
+<div class="page-container">
+
+    <div class="page-header">
+        <div>
+            <p class="page-kicker">Administration</p>
+            <h1 class="page-title">Dashboard</h1>
+        </div>
+        <div style="display:flex;gap:10px;">
+            <a href="{{ path('app_admin_users') }}" class="btn-outline">Utilisateurs</a>
+            <a href="{{ path('app_admin_journeys') }}" class="btn-outline">Carnets</a>
+        </div>
+    </div>
+
+    {# Stats #}
+    <div class="admin-stats">
+        <div class="admin-stat-card">
+            <p class="admin-stat-number">{{ stats.users }}</p>
+            <p class="admin-stat-label">Utilisateurs</p>
+        </div>
+        <div class="admin-stat-card">
+            <p class="admin-stat-number">{{ stats.journeys }}</p>
+            <p class="admin-stat-label">Carnets total</p>
+        </div>
+        <div class="admin-stat-card">
+            <p class="admin-stat-number">{{ stats.published }}</p>
+            <p class="admin-stat-label">Carnets publiés</p>
+        </div>
+        <div class="admin-stat-card">
+            <p class="admin-stat-number">{{ stats.comments }}</p>
+            <p class="admin-stat-label">Commentaires</p>
+        </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:2rem;">
+
+        {# Derniers carnets #}
+        <div>
+            <p class="page-kicker" style="margin-bottom:12px;">Derniers carnets</p>
+            {% for journey in latestJourneys %}
+            <div class="admin-list-item">
+                <div>
+                    <p class="admin-list-title">{{ journey.title }}</p>
+                    <p class="admin-list-meta">{{ journey.author.username }} — {{ journey.createdAt|date('d/m/Y') }}</p>
+                </div>
+                <span class="journey-category-tag {{ journey.published ? 'journey-category-secondary' : 'journey-status-draft' }}">
+                    {{ journey.published ? 'Publié' : 'Brouillon' }}
+                </span>
+            </div>
+            {% endfor %}
+        </div>
+
+        {# Derniers utilisateurs #}
+        <div>
+            <p class="page-kicker" style="margin-bottom:12px;">Derniers inscrits</p>
+            {% for user in latestUsers %}
+            <div class="admin-list-item">
+                <div>
+                    <p class="admin-list-title">{{ user.username }}</p>
+                    <p class="admin-list-meta">{{ user.email }} — {{ user.createdAt|date('d/m/Y') }}</p>
+                </div>
+                <span class="journey-category-tag {{ 'ROLE_ADMIN' in user.roles ? 'journey-category-accent' : 'journey-status-draft' }}">
+                    {{ 'ROLE_ADMIN' in user.roles ? 'Admin' : 'User' }}
+                </span>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

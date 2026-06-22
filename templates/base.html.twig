@@ -17,6 +17,9 @@
                 <a href="{{ path('app_journey_index') }}">Carnets</a>
 
                 {% if app.user %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_admin_dashboard') }}">Admin</a>
+                {% endif %}
                     <a href="{{ path('app_journey_my') }}">Mes carnets</a>
                     <a href="{{ path('app_journey_new') }}" class="navbar-btn-accent">+ Nouveau carnet</a>
                     <a href="{{ path('app_logout') }}">Se déconnecter</a>

@@ -3,27 +3,52 @@
 {% block title %}Créer un carnet — Horizons{% endblock %}
 
 {% block body %}
-<div class="container mt-4">
-    <h1>Créer un nouveau carnet de voyage</h1>
+<div class="page-container" style="max-width: 650px;">
 
-    {# Messages flash (succès/erreur) #}
+    <p class="page-kicker">Nouveau carnet</p>
+    <h1 class="page-title">Raconter un voyage</h1>
+
     {% for message in app.flashes('success') %}
-        <div class="alert alert-success">{{ message }}</div>
+        <div class="flash flash-success">{{ message }}</div>
     {% endfor %}
     {% for message in app.flashes('error') %}
-        <div class="alert alert-danger">{{ message }}</div>
+        <div class="flash flash-error">{{ message }}</div>
     {% endfor %}
 
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr': {'class': 'horizons-form'}}) }}
         {{ form_row(form.title) }}
         {{ form_row(form.description) }}
-        {{ form_row(form.coverImageFile) }}
-        {{ form_row(form.budget) }}
-        {{ form_row(form.duration) }}
+
+        <div class="form-row-2col">
+            {{ form_row(form.budget) }}
+            {{ form_row(form.duration) }}
+        </div>
+
         {{ form_row(form.category) }}
+        <div class="mb-3">
+            <label class="file-upload-label" for="{{ form.coverImageFile.vars.id }}">
+                📎 Cliquez pour choisir une image (JPEG, PNG, WEBP — 3 Mo max)
+                <span id="file-name" style="display:block;margin-top:6px;color:var(--color-accent);"></span>
+            </label>
+            {{ form_widget(form.coverImageFile) }}
+            {{ form_errors(form.coverImageFile) }}
+        </div>
         {{ form_row(form.published) }}
 
-        <button type="submit" class="btn btn-primary mt-3">Créer le carnet</button>
+        <button type="submit" class="btn-accent mt-3">Publier le carnet</button>
     {{ form_end(form) }}
+
 </div>
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+    
+    document.querySelector('input[type="file"]').addEventListener('change', function() {
+        const fileName = this.files[0] ? this.files[0].name : '';
+        document.getElementById('file-name').textContent = fileName;
+    });
+    </script>
+{% endblock %}
+
+
 {% endblock %}

@@ -3,41 +3,76 @@
 {% block title %}Modifier — {{ journey.title }}{% endblock %}
 
 {% block body %}
-<div class="container mt-4">
-    <h1>Modifier le carnet "{{ journey.title }}"</h1>
+<div class="page-container" style="max-width: 650px;">
+
+    <p class="page-kicker">Modifier le carnet</p>
+    <h1 class="page-title">{{ journey.title }}</h1>
 
     {% for message in app.flashes('success') %}
-        <div class="alert alert-success">{{ message }}</div>
+        <div class="flash flash-success">{{ message }}</div>
     {% endfor %}
     {% for message in app.flashes('error') %}
-        <div class="alert alert-danger">{{ message }}</div>
+        <div class="flash flash-error">{{ message }}</div>
     {% endfor %}
 
-    {# Affiche l'image actuelle si elle existe #}
     {% if journey.coverImage %}
-        <p>Image actuelle :</p>
-        <img src="{{ asset('uploads/journeys/' ~ journey.coverImage) }}"
-             style="max-width: 200px;" class="mb-3 rounded">
+        <div style="margin-bottom: 16px;">
+            <p style="font-size:12px;color:var(--color-text-light);margin-bottom:8px;">Image actuelle :</p>
+            <img src="{{ asset('uploads/journeys/' ~ journey.coverImage) }}"
+                 style="max-width: 200px; border-radius: 3px;">
+        </div>
     {% endif %}
 
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr': {'class': 'horizons-form', 'id': 'edit-form'}}) }}
         {{ form_row(form.title) }}
         {{ form_row(form.description) }}
-        {{ form_row(form.coverImageFile) }}
-        {{ form_row(form.budget) }}
-        {{ form_row(form.duration) }}
+
+        <div class="form-row-2col">
+            {{ form_row(form.budget) }}
+            {{ form_row(form.duration) }}
+        </div>
+
         {{ form_row(form.category) }}
+
+        <div class="mb-3">
+            <label class="file-upload-label" for="{{ form.coverImageFile.vars.id }}">
+                📎 Changer l'image de couverture (JPEG, PNG, WEBP — 3 Mo max)
+                <span id="file-name" style="display:block;margin-top:6px;color:var(--color-accent);"></span>
+            </label>
+            {{ form_widget(form.coverImageFile) }}
+            {{ form_errors(form.coverImageFile) }}
+        </div>
+
         {{ form_row(form.published) }}
 
-        <button type="submit" class="btn btn-primary mt-3">Enregistrer les modifications</button>
-    {{ form_end(form) }}
-    <hr class="my-4">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem;">
+            <button type="submit" class="btn-accent">Enregistrer les modifications</button>
 
-    <form method="post"
-        action="{{ path('app_journey_delete', {slug: journey.slug}) }}"
-        onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce carnet ? Cette action est irréversible.');">
+            <button type="button"
+                    onclick="document.getElementById('delete-form').submit()"
+                    style="background:none;border:none;font-size:12px;color:#791F1F;cursor:pointer;text-decoration:underline;">
+                Supprimer
+            </button>
+        </div>
+
+    {{ form_end(form) }}
+
+    <form id="delete-form"
+          method="post"
+          action="{{ path('app_journey_delete', {slug: journey.slug}) }}"
+          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce carnet ?');">
         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ journey.id) }}">
-        <button class="btn btn-outline-danger">Supprimer ce carnet</button>
     </form>
+
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+    document.querySelector('input[type="file"]').addEventListener('change', function() {
+        const fileName = this.files[0] ? this.files[0].name : '';
+        document.getElementById('file-name').textContent = fileName;
+    });
+    </script>
 {% endblock %}

@@ -491,3 +491,140 @@ h1, h2, h3, h4, h5 {
         min-height: 160px;
     }
 }
+/* ============================================
+   FORMULAIRES HORIZONS
+   ============================================ */
+.horizons-form label {
+    font-size: 12px;
+    color: var(--color-text-medium);
+    display: block;
+    margin-bottom: 5px;
+}
+
+.horizons-form input[type="text"],
+.horizons-form input[type="email"],
+.horizons-form input[type="password"],
+.horizons-form input[type="number"],
+.horizons-form textarea,
+.horizons-form select {
+    width: 100%;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-soft);
+    border-radius: 3px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--color-text-dark);
+    font-family: var(--font-body);
+    box-sizing: border-box;
+    resize: none;
+}
+
+.horizons-form input:focus,
+.horizons-form textarea:focus,
+.horizons-form select:focus {
+    outline: none;
+    border-color: var(--color-accent);
+}
+
+.horizons-form .form-row-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+/*  flash */
+.flash {
+    padding: 10px 14px;
+    border-radius: 3px;
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+.flash-success {
+    background: #E6F4EA;
+    color: #2D6A4F;
+    border: 1px solid #B7DFC5;
+}
+
+.flash-error {
+    background: #FCEBEB;
+    color: #791F1F;
+    border: 1px solid #F09595;
+}
+
+
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 1rem; }
+/* Upload de fichier  */
+.horizons-form input[type="file"] {
+    display: none;
+}
+
+.file-upload-label {
+    display: block;
+    background: var(--color-surface);
+    border: 1px dashed var(--color-border-soft);
+    border-radius: 3px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--color-text-light);
+}
+
+.file-upload-label:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+/* Supprime les flèches des unputs */
+.horizons-form input[type="number"]::-webkit-outer-spin-button,
+.horizons-form input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.horizons-form input[type="number"] {
+    -moz-appearance: textfield;
+}
+/* Checkbox stylisée */
+.horizons-form input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--color-border-soft);
+    border-radius: 3px;
+    background: var(--color-surface);
+    cursor: pointer;
+    vertical-align: middle;
+    position: relative;
+}
+
+.horizons-form input[type="checkbox"]:checked {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.horizons-form input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    color: white;
+    font-size: 11px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+/* Select sans flèche native */
+.horizons-form select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239C7A52' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+}
+/* Badge brouillon */
+.journey-status-draft {
+    background: var(--color-border-soft);
+    color: var(--color-text-medium);
+}

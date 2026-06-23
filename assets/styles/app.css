@@ -762,3 +762,12 @@ h1, h2, h3, h4, h5 {
 .admin-table tr:hover td {
     background: var(--color-surface);
 }
+.link-terracotta {
+    color: var(--terracotta);
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.link-terracotta:hover {
+    color: var(--sauge);
+}

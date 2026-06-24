@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Journey;
+use App\Entity\Comment;
 use App\Form\JourneyType;
 use App\Repository\CategoryRepository;
 use App\Repository\JourneyRepository;
@@ -214,6 +215,38 @@ use Symfony\Component\String\Slugger\SluggerInterface;
         return $this->render('journey/show.html.twig',[
             'journey' => $journey,
         ]);
+    }
+    #[Route('/journey/{slug}/comment', name: 'app_journey_comment', methods: ['POST'])]
+    public function addComment(
+        string $slug,
+        Request $request,
+        JourneyRepository $journeyRepository,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $journey = $journeyRepository->findOneBy(['slug' => $slug]);
+
+        if (!$journey) {
+            throw $this->createNotFoundException('Ce carnet n\'existe pas');
+        }
+
+        $content = $request->request->get('content');
+
+        if ($content && trim($content) !== '') {
+            $comment = new Comment();
+            $comment->setContent($content);
+            $comment->setAuthor($this->getUser());
+            $comment->setJourney($journey);
+            $comment->setCreatedAt(new \DateTimeImmutable());
+
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Commentaire ajouté !');
+        }
+
+        return $this->redirectToRoute('app_journey_show', ['slug' => $journey->getSlug()]);
     }
 }
 

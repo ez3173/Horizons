@@ -73,7 +73,7 @@
         </div>
 
         {% if app.user %}
-            <form method="post" action="#" class="comment-form">
+            <form method="post" action="{{ path('app_journey_comment', {slug: journey.slug}) }}" class="comment-form">
                 <textarea class="comment-textarea" name="content" rows="3" placeholder="Votre commentaire..."></textarea>
                 <button type="submit" class="btn-accent mt-2">Envoyer</button>
             </form>

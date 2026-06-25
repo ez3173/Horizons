@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page introuvable — Horizons{% endblock %}
+
+{% block body %}
+<div class="page-container" style="max-width: 600px; text-align: center; padding: 6rem 2rem;">
+
+    <p style="font-family:var(--font-title);font-size:96px;font-weight:600;color:var(--color-border);line-height:1;margin-bottom:0;">404</p>
+
+    <h1 style="font-family:var(--font-title);font-size:28px;font-weight:600;color:var(--color-text-dark);margin-bottom:12px;">
+        Cette page s'est perdue en route
+    </h1>
+
+    <p style="font-size:15px;color:var(--color-text-light);line-height:1.6;margin-bottom:2.5rem;">
+        Le carnet que vous cherchez n'existe pas ou a été supprimé.<br>
+        Repartez à l'aventure depuis l'accueil !
+    </p>
+
+    <div style="display:flex;gap:12px;justify-content:center;">
+        <a href="{{ path('app_home') }}" class="btn-accent">Retour à l'accueil</a>
+        <a href="{{ path('app_journey_index') }}" class="btn-outline">Voir les carnets</a>
+    </div>
+
+</div>
+{% endblock %}

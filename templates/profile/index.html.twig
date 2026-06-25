@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil — Horizons{% endblock %}
+
+{% block body %}
+<div class="page-container" style="max-width: 860px;">
+
+    <div class="page-header">
+        <div>
+            <p class="page-kicker">Mon espace</p>
+            <h1 class="page-title">Mon profil</h1>
+        </div>
+        <a href="{{ path('app_journey_new') }}" class="btn-accent">+ Nouveau carnet</a>
+    </div>
+
+    {% for message in app.flashes('success') %}
+        <div class="flash flash-success">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="flash flash-error">{{ message }}</div>
+    {% endfor %}
+
+    {# Carte identité utilisateur #}
+    <div class="form-card" style="display:flex; align-items:center; gap:28px; margin-bottom:2rem;">
+        <div style="width:72px;height:72px;border-radius:50%;background:var(--color-accent);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-size:30px;font-weight:600;flex-shrink:0;">
+            {{ app.user.username|first|upper }}
+        </div>
+        <div style="flex:1;">
+            <p style="font-family:var(--font-title);font-size:22px;font-weight:600;color:var(--color-text-dark);margin-bottom:4px;">{{ app.user.username }}</p>
+            <p style="font-size:13px;color:var(--color-text-light);margin-bottom:2px;">{{ app.user.email }}</p>
+            <p style="font-size:12px;color:var(--color-text-light);">Membre depuis {{ app.user.createdAt|date('d/m/Y') }}</p>
+        </div>
+        <div style="display:flex;gap:24px;text-align:center;">
+            <div>
+                <p style="font-family:var(--font-title);font-size:28px;font-weight:600;color:var(--color-accent);margin:0;">{{ published|length }}</p>
+                <p style="font-size:11px;color:var(--color-text-light);text-transform:uppercase;letter-spacing:0.5px;">Publiés</p>
+            </div>
+            <div>
+                <p style="font-family:var(--font-title);font-size:28px;font-weight:600;color:var(--color-text-medium);margin:0;">{{ drafts|length }}</p>
+                <p style="font-size:11px;color:var(--color-text-light);text-transform:uppercase;letter-spacing:0.5px;">Brouillons</p>
+            </div>
+            <div>
+                <p style="font-family:var(--font-title);font-size:28px;font-weight:600;color:var(--color-secondary);margin:0;">{{ published|length + drafts|length }}</p>
+                <p style="font-size:11px;color:var(--color-text-light);text-transform:uppercase;letter-spacing:0.5px;">Total</p>
+            </div>
+        </div>
+    </div>
+
+    {# Carnets publiés #}
+    {% if published|length > 0 %}
+    <div style="margin-bottom:2.5rem;">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1rem;">
+            <h2 style="font-family:var(--font-title);font-size:22px;font-weight:600;color:var(--color-text-dark);">Carnets publiés</h2>
+            <span style="font-size:12px;color:var(--color-text-light);">{{ published|length }} carnet{{ published|length > 1 ? 's' : '' }}</span>
+        </div>
+        <div class="list-grid">
+            {% for journey in published %}
+            <div class="list-card" style="cursor:default;">
+                <div class="list-card-image">
+                    {% if journey.coverImage %}
+                        <img src="{{ asset('uploads/journeys/' ~ journey.coverImage) }}" alt="{{ journey.title }}">
+                    {% else %}
+                        <div style="width:100%;height:100%;background:var(--color-border-soft);display:flex;align-items:center;justify-content:center;">
+                            <span style="font-size:32px;">🗺️</span>
+                        </div>
+                    {% endif %}
+                    <span class="list-card-badge list-card-badge-secondary">Publié</span>
+                </div>
+                <div class="list-card-body">
+                    <h3 class="list-card-title">{{ journey.title }}</h3>
+                    <p class="list-card-text">{{ journey.description|slice(0, 90) }}...</p>
+                    <div class="list-card-footer" style="display:flex;justify-content:space-between;align-items:center;">
+                        <span>{{ journey.duration }} jours · {{ journey.budget }} €</span>
+                        <div style="display:flex;gap:10px;">
+                            <a href="{{ path('app_journey_show', {slug: journey.slug}) }}"
+                               style="font-size:12px;color:var(--color-text-light);text-decoration:none;font-weight:600;">Voir</a>
+                            <a href="{{ path('app_journey_edit', {slug: journey.slug}) }}"
+                               style="font-size:12px;color:var(--color-accent);text-decoration:none;font-weight:600;">Modifier</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {# Brouillons #}
+    {% if drafts|length > 0 %}
+    <div style="margin-bottom:2rem;">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1rem;">
+            <h2 style="font-family:var(--font-title);font-size:22px;font-weight:600;color:var(--color-text-dark);">Brouillons</h2>
+            <span style="font-size:12px;color:var(--color-text-light);">{{ drafts|length }} brouillon{{ drafts|length > 1 ? 's' : '' }}</span>
+        </div>
+        <div class="list-grid">
+            {% for journey in drafts %}
+            <div class="list-card" style="cursor:default;opacity:0.85;">
+                <div class="list-card-image">
+                    {% if journey.coverImage %}
+                        <img src="{{ asset('uploads/journeys/' ~ journey.coverImage) }}" alt="{{ journey.title }}">
+                    {% else %}
+                        <div style="width:100%;height:100%;background:var(--color-border-soft);display:flex;align-items:center;justify-content:center;">
+                            <span style="font-size:32px;">🗺️</span>
+                        </div>
+                    {% endif %}
+                    <span class="list-card-badge" style="background:var(--color-border-soft);color:var(--color-text-medium);">Brouillon</span>
+                </div>
+                <div class="list-card-body">
+                    <h3 class="list-card-title">{{ journey.title }}</h3>
+                    <p class="list-card-text">{{ journey.description|slice(0, 90) }}...</p>
+                    <div class="list-card-footer" style="display:flex;justify-content:space-between;align-items:center;">
+                        <span>{{ journey.duration }} jours · {{ journey.budget }} €</span>
+                        <a href="{{ path('app_journey_edit', {slug: journey.slug}) }}"
+                           style="font-size:12px;color:var(--color-accent);text-decoration:none;font-weight:600;">Modifier</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {# État vide #}
+    {% if published|length == 0 and drafts|length == 0 %}
+    <div style="text-align:center;padding:4rem 2rem;">
+        <p style="font-family:var(--font-title);font-size:22px;color:var(--color-text-dark);margin-bottom:10px;">Vous n'avez pas encore de carnet</p>
+        <p style="font-size:14px;color:var(--color-text-light);margin-bottom:1.5rem;">Commencez par raconter votre premier voyage !</p>
+        <a href="{{ path('app_journey_new') }}" class="btn-accent">Créer mon premier carnet</a>
+    </div>
+    {% endif %}
+
+    {# Zone de suppression du compte — séparée du reste #}
+    <div style="margin-top:3rem;padding:1.5rem;background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;">
+        <p style="font-size:14px;font-weight:600;color:var(--color-accent);margin-bottom:6px;">Supprimer mon compte</p>
+        <p style="font-size:13px;color:var(--color-text-light);margin-bottom:14px;">
+            Cette action est définitive : votre compte, vos carnets, vos étapes et vos commentaires seront supprimés.
+        </p>
+        <form method="post"
+              action="{{ path('app_profile_delete') }}"
+              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.');">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete-account' ~ app.user.id) }}">
+            <button type="submit" class="btn-delete">
+                Supprimer mon compte
+            </button>
+        </form>
+    </div>
+
+</div>
+{% endblock %}

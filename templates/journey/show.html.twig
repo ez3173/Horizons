@@ -6,83 +6,192 @@
 <div class="page-container">
 
     <a href="{{ path('app_journey_index') }}" class="back-link">
-        <i class="ti ti-arrow-left"></i> Retour aux carnets
+        ← Retour aux carnets
     </a>
 
-    <div class="journey-detail-header">
-        <div class="journey-detail-main">
-            {% if journey.category %}
-                <span class="journey-category-tag journey-category-secondary">{{ journey.category.name }}</span>
-            {% endif %}
-            <h1 class="journey-detail-title">{{ journey.title }}</h1>
-            <p class="journey-detail-meta">
-                Par <strong>{{ journey.author.username }}</strong> —
-                {{ journey.createdAt|date('d/m/Y') }}
-            </p>
-            <p class="journey-detail-description">{{ journey.description }}</p>
-
-            <div class="journey-detail-stats">
-                <span><i class="ti ti-calendar"></i> {{ journey.duration }} jours</span>
-                <span><i class="ti ti-coin"></i> {{ journey.budget }} €</span>
-                <span><i class="ti ti-message-circle"></i> {{ journey.comments|length }} commentaires</span>
-            </div>
-
-            {% if app.user and (app.user == journey.author or is_granted('ROLE_ADMIN')) %}
-                <a href="{{ path('app_journey_edit', {slug: journey.slug}) }}" class="btn-outline mt-3">
-                    Modifier ce carnet
-                </a>
-            {% endif %}
+    {# Hero : image de couverture + titre + auteur #}
+    <div class="show-hero">
+        {% if journey.coverImage %}
+        <div class="show-hero-image">
+            <img src="{{ asset('uploads/journeys/' ~ journey.coverImage) }}" alt="{{ journey.title }}">
+            <div class="show-hero-overlay"></div>
         </div>
+        {% else %}
+        <div class="show-hero-image show-hero-placeholder"></div>
+        {% endif %}
 
-        <div class="journey-detail-image">
-            {% if journey.coverImage %}
-                <img src="{{ asset('uploads/journeys/' ~ journey.coverImage) }}" alt="{{ journey.title }}">
-            {% endif %}
+        <div class="show-hero-content">
+            <div class="show-hero-badges">
+                {% if journey.category %}
+                    <span class="show-badge show-badge-accent">{{ journey.category.name }}</span>
+                {% endif %}
+            </div>
+            <h1 class="show-hero-title">{{ journey.title }}</h1>
+            <p class="show-hero-meta">
+                Par <strong>{{ journey.author.username }}</strong> · {{ journey.createdAt|date('d/m/Y') }}
+            </p>
         </div>
     </div>
 
-    {% if journey.steps|length > 0 %}
-    <div class="section-block">
-        <p class="page-kicker">Étapes du voyage</p>
-        <div class="steps-list">
-            {% for step in journey.steps %}
-            <div class="step-item">
-                <div class="step-number">{{ loop.index }}</div>
+    {# Chiffres clés du voyage #}
+    <div class="show-stats-bar">
+        <div class="show-stat">
+            <span class="show-stat-label">Durée</span>
+            <span class="show-stat-value">{{ journey.duration }} jours</span>
+        </div>
+        <div class="show-stat">
+            <span class="show-stat-label">Budget réel</span>
+            <span class="show-stat-value">{{ journey.budget }} €</span>
+        </div>
+        {% if journey.category %}
+        <div class="show-stat">
+            <span class="show-stat-label">Catégorie</span>
+            <span class="show-stat-value">{{ journey.category.name }}</span>
+        </div>
+        {% endif %}
+        <div class="show-stat">
+            <span class="show-stat-label">Commentaires</span>
+            <span class="show-stat-value">{{ journey.comments|length }}</span>
+        </div>
+    </div>
+
+    {# Description + carte auteur  #}
+    <div class="show-body-grid">
+        <div class="show-description-block">
+            <p class="page-kicker">À propos de ce voyage</p>
+            <p class="show-description-text">{{ journey.description }}</p>
+
+            {% if app.user and (app.user == journey.author or is_granted('ROLE_ADMIN')) %}
+            <div style="margin-top: 1.5rem; display:flex; gap: 10px;">
+                <a href="{{ path('app_journey_edit', {slug: journey.slug}) }}" class="btn-outline">
+                    Modifier ce carnet
+                </a>
+                <form method="post" action="{{ path('app_journey_delete', {slug: journey.slug}) }}" style="display:inline;">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ journey.getId()) }}">
+                    <button type="submit" onclick="return confirm('Supprimer ce carnet ?')" class="btn-delete">
+                        Supprimer
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="show-author-card">
+            <p class="show-author-label">Auteur</p>
+            <div class="show-author-inner">
+                <div class="show-author-avatar">{{ journey.author.username|first|upper }}</div>
                 <div>
-                    <h3 class="step-title">{{ step.title }}</h3>
-                    <p class="step-text">{{ step.content }}</p>
+                    <p class="show-author-name">{{ journey.author.username }}</p>
+                    <p class="show-author-date">Carnet publié · {{ journey.createdAt|date('Y') }}</p>
                 </div>
             </div>
-            {% endfor %}
+        </div>
+    </div>
+
+    {# Étapes avec navigation  interactive #}
+    {% if journey.steps|length > 0 %}
+    <div class="show-steps-section">
+        <div class="show-steps-header">
+            <p class="page-kicker">Étapes du voyage</p>
+            <span class="show-steps-count">{{ journey.steps|length }} étape{{ journey.steps|length > 1 ? 's' : '' }}</span>
+        </div>
+        <h2 class="show-steps-title">L'itinéraire, étape par étape</h2>
+
+        <div class="show-steps-layout">
+            <div class="show-steps-nav">
+                {% for step in journey.steps %}
+                <button class="show-step-nav-item {% if loop.first %}active{% endif %}" data-step="{{ loop.index0 }}">
+                    <span class="show-step-nav-num">{{ loop.index }}</span>
+                    <div class="show-step-nav-info">
+                        {% if step.duration %}
+                            <span class="show-step-nav-day">{{ step.duration }} jour{{ step.duration > 1 ? 's' : '' }}</span>
+                        {% endif %}
+                        <span class="show-step-nav-title">{{ step.title|slice(0, 20) }}{% if step.title|length > 20 %}...{% endif %}</span>
+                    </div>
+                </button>
+                {% endfor %}
+            </div>
+
+            <div class="show-steps-content">
+                {% for step in journey.steps %}
+                <div class="show-step-panel {% if loop.first %}active{% endif %}" data-panel="{{ loop.index0 }}">
+                    <div class="show-step-panel-header">
+                        {% if step.duration %}
+                            <span class="show-step-panel-day">{{ step.duration }} jour{{ step.duration > 1 ? 's' : '' }}</span>
+                        {% endif %}
+                        <span class="show-step-panel-num">Étape {{ loop.index }}</span>
+                    </div>
+                    <h3 class="show-step-panel-title">{{ step.title }}</h3>
+                    <p class="show-step-panel-text">{{ step.content }}</p>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
     {% endif %}
 
-    <div class="section-block">
-        <p class="page-kicker">Commentaires ({{ journey.comments|length }})</p>
-
-        <div class="comments-list">
-            {% for comment in journey.comments %}
-            <div class="comment-item">
-                <p class="comment-text">{{ comment.content }}</p>
-                <p class="comment-meta">{{ comment.author.username }} — {{ comment.createdAt|date('d/m/Y') }}</p>
-            </div>
-            {% else %}
-                <p class="text-muted">Aucun commentaire pour le moment.</p>
-            {% endfor %}
-        </div>
+    {# Commentaires #}
+    <div class="show-comments-section">
+        <p class="page-kicker">Avis & Conseils</p>
+        <h2 class="show-comments-title">
+            Ils ont commenté ce carnet
+            <span class="show-comments-count">{{ journey.comments|length }} commentaire{{ journey.comments|length > 1 ? 's' : '' }}</span>
+        </h2>
 
         {% if app.user %}
-            <form method="post" action="{{ path('app_journey_comment', {slug: journey.slug}) }}" class="comment-form">
-                <textarea class="comment-textarea" name="content" rows="3" placeholder="Votre commentaire..."></textarea>
-                <button type="submit" class="btn-accent mt-2">Envoyer</button>
-            </form>
+        <form method="post" action="{{ path('app_journey_comment', {slug: journey.slug}) }}" class="show-comment-form">
+            <div class="show-comment-form-avatar">{{ app.user.username|first|upper }}</div>
+            <div class="show-comment-form-inner">
+                <textarea name="content" rows="3" placeholder="Partagez un conseil, une bonne adresse, ce que vous feriez différemment..." class="show-comment-textarea"></textarea>
+                <div style="display:flex; justify-content:flex-end; margin-top: 8px;">
+                    <button type="submit" class="btn-accent">Publier mon avis</button>
+                </div>
+            </div>
+        </form>
         {% else %}
-            <p class="mt-3">
-                <a href="{{ path('app_login') }}" class="link-terracotta">Connectez-vous</a> pour laisser un commentaire.
-            </p>
+        <p class="show-comment-login">
+            <a href="{{ path('app_login') }}" class="link-terracotta">Connectez-vous</a> pour laisser un commentaire.
+        </p>
         {% endif %}
+
+        <div class="show-comments-list">
+            {% for comment in journey.comments %}
+            <div class="show-comment-item">
+                <div class="show-comment-avatar">{{ comment.author.username|first|upper }}</div>
+                <div class="show-comment-body">
+                    <div class="show-comment-header">
+                        <strong class="show-comment-author">{{ comment.author.username }}</strong>
+                        <span class="show-comment-date">{{ comment.createdAt|date('d/m/Y') }}</span>
+                    </div>
+                    <p class="show-comment-text">{{ comment.content }}</p>
+                </div>
+            </div>
+            {% else %}
+            <p class="show-no-comments">Aucun commentaire pour le moment. Soyez le premier !</p>
+            {% endfor %}
+        </div>
     </div>
 
 </div>
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+(function() {
+    const navItems = document.querySelectorAll('.show-step-nav-item');
+    const panels   = document.querySelectorAll('.show-step-panel');
+
+    navItems.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const idx = this.dataset.step;
+            navItems.forEach(b => b.classList.remove('active'));
+            panels.forEach(p => p.classList.remove('active'));
+            this.classList.add('active');
+            document.querySelector(`.show-step-panel[data-panel="${idx}"]`).classList.add('active');
+        });
+    });
+})();
+</script>
+{% endblock %}
+
 {% endblock %}

@@ -3,10 +3,22 @@
 {% block title %}Modifier — {{ journey.title }}{% endblock %}
 
 {% block body %}
-<div class="page-container" style="max-width: 650px;">
+<div class="page-container" style="max-width: 720px;">
 
-    <p class="page-kicker">Modifier le carnet</p>
+    <a href="{{ path('app_journey_show', {slug: journey.slug}) }}" class="back-link">← Retour au carnet</a>
+
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:6px;">
+        <p class="page-kicker" style="margin:0;">Modifier le carnet</p>
+        {% if journey.published %}
+            <span style="background:var(--color-secondary-light);color:var(--color-secondary);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:0.5px;text-transform:uppercase;">Publié</span>
+        {% else %}
+            <span style="background:var(--color-border-soft);color:var(--color-text-medium);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:0.5px;text-transform:uppercase;">Brouillon</span>
+        {% endif %}
+    </div>
     <h1 class="page-title">{{ journey.title }}</h1>
+    <p style="color: var(--color-text-light); margin-bottom: 2rem; line-height: 1.6;">
+        Modifiez les informations, réorganisez ou ajoutez des étapes. Vos changements seront visibles dès l'enregistrement.
+    </p>
 
     {% for message in app.flashes('success') %}
         <div class="flash flash-success">{{ message }}</div>
@@ -15,15 +27,12 @@
         <div class="flash flash-error">{{ message }}</div>
     {% endfor %}
 
-    {% if journey.coverImage %}
-        <div style="margin-bottom: 16px;">
-            <p style="font-size:12px;color:var(--color-text-light);margin-bottom:8px;">Image actuelle :</p>
-            <img src="{{ asset('uploads/journeys/' ~ journey.coverImage) }}"
-                 style="max-width: 200px; border-radius: 3px;">
-        </div>
-    {% endif %}
-
     {{ form_start(form, {'attr': {'class': 'horizons-form', 'id': 'edit-form'}}) }}
+
+    {# Informations générales #}
+    <div class="form-card">
+        <h2 class="form-card-title">Le voyage en bref</h2>
+
         {{ form_row(form.title) }}
         {{ form_row(form.description) }}
 
@@ -34,45 +43,150 @@
 
         {{ form_row(form.category) }}
 
+        {# Aperçu de l'image actuelle + possibilité de la remplacer #}
         <div class="mb-3">
+            <label class="form-label" style="font-size:12px;color:var(--color-text-medium);display:block;margin-bottom:8px;">Image de couverture</label>
+            {% if journey.coverImage %}
+            <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px;">
+                <img src="{{ asset('uploads/journeys/' ~ journey.coverImage) }}"
+                     style="width:80px;height:60px;object-fit:cover;border-radius:6px;border:1px solid var(--color-border);">
+                <label class="file-upload-label" for="{{ form.coverImageFile.vars.id }}" style="flex:1;margin:0;">
+                    Remplacer l'image de couverture
+                    <span style="display:block;font-size:11px;color:var(--color-text-light);margin-top:2px;">JPEG, PNG, WEBP — 3 Mo max</span>
+                    <span id="file-name" style="display:block;margin-top:4px;color:var(--color-accent);font-weight:600;font-size:12px;"></span>
+                </label>
+            </div>
+            {% else %}
             <label class="file-upload-label" for="{{ form.coverImageFile.vars.id }}">
-                📎 Changer l'image de couverture (JPEG, PNG, WEBP — 3 Mo max)
-                <span id="file-name" style="display:block;margin-top:6px;color:var(--color-accent);"></span>
+                ⛰️ Cliquez pour choisir une image de couverture
+                <span style="display:block;font-size:12px;color:var(--color-text-light);margin-top:4px;">JPEG, PNG, WEBP — 3 Mo max</span>
+                <span id="file-name" style="display:block;margin-top:6px;color:var(--color-accent);font-weight:600;"></span>
             </label>
+            {% endif %}
             {{ form_widget(form.coverImageFile) }}
             {{ form_errors(form.coverImageFile) }}
         </div>
+    </div>
 
-        {{ form_row(form.published) }}
+    {# Étapes existantes + ajout dynamique #}
+    <div style="margin-top: 2.5rem;">
+        <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom: 0.4rem;">
+            <p class="page-kicker" style="margin-bottom:0;">Étapes du voyage</p>
+            <span id="step-count" style="font-size:13px; color:var(--color-text-light); font-weight:600;">{{ journey.steps|length }} étape(s)</span>
+        </div>
+        <p style="font-size:14px; color:var(--color-text-light); margin-bottom: 1.5rem;">
+            Modifiez chaque étape ou ajoutez-en de nouvelles.
+        </p>
 
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem;">
-            <button type="submit" class="btn-accent">Enregistrer les modifications</button>
-
-            <button type="button"
-                    onclick="document.getElementById('delete-form').submit()"
-                    style="background:none;border:none;font-size:12px;color:#791F1F;cursor:pointer;text-decoration:underline;">
-                Supprimer
-            </button>
+        <div id="steps-container" data-prototype="{{ form_widget(form.steps.vars.prototype)|e('html_attr') }}">
+            {% for step in form.steps %}
+            <div class="step-form-item">
+                <div class="step-form-header">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <span class="step-circle">{{ loop.index }}</span>
+                        <span class="step-label" style="font-family: var(--font-title); font-size:18px; font-weight:600;">Étape {{ loop.index }}</span>
+                    </div>
+                    <button type="button" class="btn-remove-step">✕ Supprimer</button>
+                </div>
+                <div class="form-row-2col">
+                    {{ form_row(step.duration) }}
+                    {{ form_row(step.title) }}
+                </div>
+                {{ form_row(step.content) }}
+            </div>
+            {% endfor %}
         </div>
 
-    {{ form_end(form) }}
+        <button type="button" id="add-step" class="btn-add-step">
+            + Ajouter une étape
+        </button>
+    </div>
 
-    <form id="delete-form"
-          method="post"
-          action="{{ path('app_journey_delete', {slug: journey.slug}) }}"
-          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce carnet ?');">
-        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ journey.id) }}">
-    </form>
+    <div class="form-actions">
+        {{ form_widget(form._token) }}
+        <button type="submit" class="btn-accent">Enregistrer les modifications</button>
+        <a href="{{ path('app_journey_show', {slug: journey.slug}) }}" class="btn-outline">Annuler</a>
+        <span style="margin-left:auto; font-size:13px; color:var(--color-text-light);">Dernière modif. {{ journey.createdAt|date('d/m/Y') }}</span>
+    </div>
+
+    {{ form_end(form, {'render_rest': false}) }}
+
+    {# Zone de suppression définitive #}
+    <div style="margin-top:2rem;padding:1.5rem;background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;">
+        <p style="font-size:14px;font-weight:600;color:var(--color-accent);margin-bottom:6px;">Supprimer ce carnet</p>
+        <p style="font-size:13px;color:var(--color-text-light);margin-bottom:14px;">Cette action est définitive : toutes les étapes, photos et commentaires associés seront supprimés.</p>
+        <form id="delete-form"
+              method="post"
+              action="{{ path('app_journey_delete', {slug: journey.slug}) }}"
+              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce carnet ?');">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ journey.id) }}">
+            <button type="submit" style="background:none;border:1px solid var(--color-accent);color:var(--color-accent);padding:9px 20px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font-body);">
+                Supprimer le carnet
+            </button>
+        </form>
+    </div>
 
 </div>
-{% endblock %}
 
 {% block javascripts %}
-    {{ parent() }}
-    <script>
-    document.querySelector('input[type="file"]').addEventListener('change', function() {
-        const fileName = this.files[0] ? this.files[0].name : '';
-        document.getElementById('file-name').textContent = fileName;
-    });
-    </script>
+{{ parent() }}
+<script>
+(function() {
+    const fileInput = document.querySelector('input[type="file"]');
+    if (fileInput) {
+        fileInput.addEventListener('change', function() {
+            const el = document.getElementById('file-name');
+            if (el) el.textContent = this.files[0] ? this.files[0].name : '';
+        });
+    }
+
+    const stepsContainer = document.getElementById('steps-container');
+    let index = stepsContainer.querySelectorAll('.step-form-item').length;
+
+    function updateStepCount() {
+        const count = stepsContainer.querySelectorAll('.step-form-item').length;
+        document.getElementById('step-count').textContent = count + ' étape(s)';
+        stepsContainer.querySelectorAll('.step-form-item').forEach((item, i) => {
+            const circle = item.querySelector('.step-circle');
+            const label  = item.querySelector('.step-label');
+            if (circle) circle.textContent = i + 1;
+            if (label)  label.textContent  = 'Étape ' + (i + 1);
+        });
+    }
+
+    document.getElementById('add-step').onclick = function() {
+        const newStep = stepsContainer.dataset.prototype.replace(/__name__/g, index);
+        const div = document.createElement('div');
+        div.classList.add('step-form-item');
+        div.innerHTML = `
+            <div class="step-form-header">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <span class="step-circle">${index + 1}</span>
+                    <span class="step-label" style="font-family: var(--font-title); font-size:18px; font-weight:600;">Étape ${index + 1}</span>
+                </div>
+                <button type="button" class="btn-remove-step">✕ Supprimer</button>
+            </div>
+            ${newStep}
+        `;
+        stepsContainer.appendChild(div);
+        index++;
+        updateStepCount();
+        bindRemoveButtons();
+    };
+
+    function bindRemoveButtons() {
+        document.querySelectorAll('.btn-remove-step').forEach(btn => {
+            btn.onclick = function() {
+                this.closest('.step-form-item').remove();
+                updateStepCount();
+            };
+        });
+    }
+
+    bindRemoveButtons();
+    updateStepCount();
+})();
+</script>
+{% endblock %}
+
 {% endblock %}

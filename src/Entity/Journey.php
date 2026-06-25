@@ -51,7 +51,7 @@ class Journey
     /**
      * @var Collection<int, Step>
      */
-    #[ORM\OneToMany(targetEntity: Step::class, mappedBy: 'journey',orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Step::class, mappedBy: 'journey', orphanRemoval: true, cascade: ['persist'])]
     private Collection $steps;
 
     /**

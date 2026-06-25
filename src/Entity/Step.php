@@ -24,7 +24,7 @@ class Step
     private ?string $image = null;
 
     #[ORM\Column]
-    private ?int $dayNumber = null;
+    private ?int $duration = null;
 
     #[ORM\ManyToOne(inversedBy: 'steps')]
     #[ORM\JoinColumn(nullable: false)]
@@ -71,14 +71,14 @@ class Step
         return $this;
     }
 
-    public function getDayNumber(): ?int
+   public function getDuration(): ?int
     {
-        return $this->dayNumber;
+        return $this->duration;
     }
 
-    public function setDayNumber(int $dayNumber): static
+    public function setDuration(int $duration): static
     {
-        $this->dayNumber = $dayNumber;
+       $this->duration = $duration;
 
         return $this;
     }

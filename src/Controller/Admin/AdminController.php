@@ -12,27 +12,23 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/admin')]
 class AdminController extends AbstractController
 {
-
     #[Route('', name: 'app_admin_dashboard')]
     public function dashboard(
         UserRepository $userRepository,
         JourneyRepository $journeyRepository,
         CommentRepository $commentRepository
     ): Response {
-
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $stats = [
-            'users'    => count($userRepository->findAll()),
-            'journeys' => count($journeyRepository->findAll()),
-            'comments' => count($commentRepository->findAll()),
+            'users'     => count($userRepository->findAll()),
+            'journeys'  => count($journeyRepository->findAll()),
+            'comments'  => count($commentRepository->findAll()),
             'published' => count($journeyRepository->findBy(['published' => true])),
         ];
 
         $latestJourneys = $journeyRepository->findBy([], ['createdAt' => 'DESC'], 5);
-
-
-        $latestUsers = $userRepository->findBy([], ['createdAt' => 'DESC'], 5);
+        $latestUsers    = $userRepository->findBy([], ['createdAt' => 'DESC'], 5);
 
         return $this->render('admin/dashboard.html.twig', [
             'stats'          => $stats,
@@ -40,7 +36,6 @@ class AdminController extends AbstractController
             'latestUsers'    => $latestUsers,
         ]);
     }
-
 
     #[Route('/users', name: 'app_admin_users')]
     public function users(UserRepository $userRepository): Response

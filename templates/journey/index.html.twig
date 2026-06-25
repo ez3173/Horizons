@@ -8,20 +8,61 @@
     <div class="page-header">
         <div>
             <p class="page-kicker">Carnets de voyage</p>
-            <h1 class="page-title">Tous les horizons</h1>
+            <h1 class="page-title" style="font-size: 38px;">Tous les horizons</h1>
         </div>
         <span class="page-count">{{ journeys.getTotalItemCount() }} carnets</span>
     </div>
 
-    {# Formulaire de recherche et filtres #}
-    <form method="get" action="{{ path('app_journey_index') }}" class="search-bar">
+    {# Carousel des 3 premiers carnets #}
+    {% if journeys.getTotalItemCount() > 0 %}
+    <div class="list-carousel" id="listCarousel">
+        <div class="list-carousel-track" id="carouselTrack">
+            {% for journey in journeys %}
+            {% if loop.index <= 3 %}
+            <a href="{{ path('app_journey_show', {slug: journey.slug}) }}" class="list-carousel-slide">
+                {% if journey.coverImage %}
+                    <img src="{{ asset('uploads/journeys/' ~ journey.coverImage) }}" alt="{{ journey.title }}">
+                {% else %}
+                    <img src="https://picsum.photos/seed/carousel-{{ loop.index }}/1200/600" alt="{{ journey.title }}">
+                {% endif %}
+                <div class="list-carousel-overlay"></div>
+                <div class="list-carousel-content">
+                    <div class="list-carousel-badges">
+                        <span class="list-carousel-badge-una">À la une</span>
+                        {% if journey.category %}
+                            <span class="list-carousel-badge-cat">{{ journey.category.name }}</span>
+                        {% endif %}
+                    </div>
+                    <h2 class="list-carousel-title">{{ journey.title }}</h2>
+                    <p class="list-carousel-desc">{{ journey.description|slice(0, 100) }}...</p>
+                    <span class="list-carousel-meta">{{ journey.duration }} jours · {{ journey.budget }} €</span>
+                </div>
+            </a>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <button class="list-carousel-btn list-carousel-prev" id="carouselPrev">‹</button>
+        <button class="list-carousel-btn list-carousel-next" id="carouselNext">›</button>
+
+        <div class="list-carousel-dots" id="carouselDots">
+            {% for journey in journeys %}
+            {% if loop.index <= 3 %}
+            <button class="list-carousel-dot {% if loop.first %}active{% endif %}" data-idx="{{ loop.index0 }}"></button>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {# Filtres de recherche #}
+    <form method="get" action="{{ path('app_journey_index') }}" class="list-search-bar">
         <input type="text"
                name="search"
-               class="search-input"
+               class="list-search-input"
                placeholder="Rechercher un carnet..."
                value="{{ search ?? '' }}">
-
-        <select name="category" class="search-select">
+        <select name="category" class="list-search-select">
             <option value="">Toutes les catégories</option>
             {% for category in categories %}
                 <option value="{{ category.id }}"
@@ -30,39 +71,37 @@
                 </option>
             {% endfor %}
         </select>
-
         <button type="submit" class="btn-accent">Rechercher</button>
     </form>
 
-    {# Grille de carnets #}
-    <div class="journey-grid">
+    {# Grille des carnets #}
+    <div class="list-grid">
         {% for journey in journeys %}
-        <a href="{{ path('app_journey_show', {slug: journey.slug}) }}" class="journey-card">
-
-            <div class="journey-card-image">
+        <a href="{{ path('app_journey_show', {slug: journey.slug}) }}" class="list-card">
+            <div class="list-card-image">
                 {% if journey.coverImage %}
                     <img src="{{ asset('uploads/journeys/' ~ journey.coverImage) }}" alt="{{ journey.title }}">
+                {% else %}
+                    <img src="https://picsum.photos/seed/card-{{ loop.index }}/600/400" alt="{{ journey.title }}">
                 {% endif %}
                 {% if journey.category %}
-                    <span class="journey-category-tag journey-category-{{ cycle(['accent', 'secondary'], loop.index0) }}">
+                    <span class="list-card-badge list-card-badge-{{ cycle(['accent', 'secondary'], loop.index0) }}">
                         {{ journey.category.name }}
                     </span>
                 {% endif %}
             </div>
-
-            <div class="journey-card-body">
-                <h3 class="journey-card-title">{{ journey.title }}</h3>
-                <p class="journey-card-text">{{ journey.description|slice(0, 110) }}...</p>
+            <div class="list-card-body">
+                <h3 class="list-card-title">{{ journey.title }}</h3>
+                <p class="list-card-text">{{ journey.description|slice(0, 100) }}...</p>
+                <div class="list-card-footer">
+                    <span>{{ journey.duration }} jours · {{ journey.budget }} €</span>
+                </div>
             </div>
-
-            <div class="journey-card-footer">
-                <span>{{ journey.duration }} jours · {{ journey.budget }} €</span>
-                <i class="ti ti-arrow-right"></i>
-            </div>
-
         </a>
         {% else %}
-            <p class="text-muted">Aucun carnet de voyage pour le moment.</p>
+            <p style="color: var(--color-text-light); grid-column: 1/-1; text-align:center; padding: 2rem;">
+                Aucun carnet de voyage pour le moment.
+            </p>
         {% endfor %}
     </div>
 
@@ -71,4 +110,37 @@
     </div>
 
 </div>
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+(function() {
+    const track = document.getElementById('carouselTrack');
+    if (!track) return;
+
+    const slides = track.querySelectorAll('.list-carousel-slide');
+    const dots   = document.querySelectorAll('.list-carousel-dot');
+    let current  = 0;
+    let timer;
+
+    function goTo(idx) {
+        current = (idx + slides.length) % slides.length;
+        track.style.transform = `translateX(-${current * 100}%)`;
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+
+    function startTimer() {
+        clearInterval(timer);
+        timer = setInterval(() => goTo(current + 1), 5500);
+    }
+
+    document.getElementById('carouselPrev').onclick = () => { goTo(current - 1); startTimer(); };
+    document.getElementById('carouselNext').onclick = () => { goTo(current + 1); startTimer(); };
+    dots.forEach(d => { d.onclick = () => { goTo(+d.dataset.idx); startTimer(); }; });
+
+    startTimer();
+})();
+</script>
+{% endblock %}
+
 {% endblock %}

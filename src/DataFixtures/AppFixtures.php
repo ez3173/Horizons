@@ -14,13 +14,13 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
-    // On injecte le service de hashage de mot de passe dans le constructeur
+    // On injecte le service de hashage 
     public function __construct(
         private UserPasswordHasherInterface $passwordHasher
     ) {}
     public function load(ObjectManager $manager): void
     {
-        //  On crée une instance de Faker en français
+
         $faker = Factory::create('fr_FR');
 
         // Catégorie
@@ -32,7 +32,6 @@ class AppFixtures extends Fixture
             $category->setName($name);
             $category-> setSlug(strtolower(str_replace('','-',$name)));
             $manager->persist($category);
-            // on garde les catégories dans un tableau
             $categories[] = $category;
 
         }
@@ -85,7 +84,7 @@ class AppFixtures extends Fixture
                 $step= new Step();
                 $step->setTitle('jour' . ($j+1).'-'.$faker->city());
                 $step->setContent($faker->paragraph(2,true));
-                $step->setDayNumber($j+1);
+                $step->setDuration($faker->numberBetween(1, 3));
                 $step->setJourney($journey);
                 $manager->persist($step);
             }
@@ -101,7 +100,6 @@ class AppFixtures extends Fixture
 
         }
 
-        //on voie tout en BDD
         $manager->flush();
     }
 }

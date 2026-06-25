@@ -33,7 +33,7 @@ class JourneyType extends AbstractType
                 'required'=>false,
                 'constraints'=> [
                     new File(
-                        maxSize: '3M',
+                        maxSize: '10M',
                         mimeTypes:[
                             'image/jpeg',
                             'image/png',

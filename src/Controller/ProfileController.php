@@ -52,8 +52,12 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute('app_profile');
         }
 
+        // Empêcher la suppression d'un compte admin
+        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+            $this->addFlash('error', 'Un compte administrateur ne peut pas être supprimé depuis le profil.');
+            return $this->redirectToRoute('app_profile');
+        }
         // Déconnexion avant suppression pour éviter une erreur
-       
         $security->logout(false);
 
         $entityManager->remove($user);

@@ -52,13 +52,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Journey>
      */
-    #[ORM\OneToMany(targetEntity: Journey::class, mappedBy: 'author')]
+    #[ORM\OneToMany(targetEntity: Journey::class, mappedBy: 'author',cascade: ['remove'], orphanRemoval: true)]
     private Collection $journeys;
 
     /**
      * @var Collection<int, Comment>
      */
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'author')]
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'author',cascade: ['remove'], orphanRemoval: true)]
     private Collection $comments;
 
     public function __construct()

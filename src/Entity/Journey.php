@@ -40,7 +40,7 @@ class Journey
     #[ORM\Column]
     private ?bool $published = null;
 
-    #[ORM\ManyToOne(inversedBy: 'category')]
+    #[ORM\ManyToOne(inversedBy: 'journeys')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 

@@ -98,7 +98,80 @@ h1, h2, h3, h4, h5 {
     background-color: #A8451F;
     color: var(--color-accent-light) !important;
 }
+/* ============================================================
+   4. FOOTER
+   ============================================================ */
+.home-footer {
+    background: var(--color-text-dark);
+    color: rgba(255,255,255,.66);
+}
 
+.home-footer-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 52px 2rem 36px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+}
+
+.home-footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.home-footer-logo {
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 22px;
+    color: #fff;
+}
+
+.home-footer-tagline {
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 260px;
+}
+
+.home-footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.home-footer-col-title {
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #f0c89a;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.home-footer-col a {
+    font-size: 14px;
+    color: rgba(255,255,255,.66);
+    text-decoration: none;
+    transition: color .15s;
+}
+
+.home-footer-col a:hover {
+    color: #fff;
+}
+
+.home-footer-bottom {
+    border-top: 1px solid rgba(255,255,255,.12);
+}
+
+.home-footer-bottom-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 20px 2rem;
+    font-size: 13px;
+    color: rgba(255,255,255,.5);
+    text-align: center 
+}
 
 /* ============================================================
    4. BOUTONS & COMPOSANTS GÉNÉRIQUES
@@ -864,77 +937,7 @@ button.btn-outline:hover {
     color: var(--color-accent);
 }
 
-/* --- Footer --- */
-.home-footer {
-    background: var(--color-text-dark);
-    color: rgba(255,255,255,.66);
-}
 
-.home-footer-inner {
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 52px 2rem 36px;
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 40px;
-}
-
-.home-footer-brand {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.home-footer-logo {
-    font-family: var(--font-title);
-    font-weight: 700;
-    font-size: 22px;
-    color: #fff;
-}
-
-.home-footer-tagline {
-    font-size: 14px;
-    line-height: 1.6;
-    max-width: 260px;
-}
-
-.home-footer-col {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.home-footer-col-title {
-    font-size: 12px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: #f0c89a;
-    font-weight: 700;
-    margin-bottom: 4px;
-}
-
-.home-footer-col a {
-    font-size: 14px;
-    color: rgba(255,255,255,.66);
-    text-decoration: none;
-    transition: color .15s;
-}
-
-.home-footer-col a:hover {
-    color: #fff;
-}
-
-.home-footer-bottom {
-    border-top: 1px solid rgba(255,255,255,.12);
-}
-
-.home-footer-bottom-inner {
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 20px 2rem;
-    font-size: 13px;
-    color: rgba(255,255,255,.5);
-}
 
 /* --- Responsive Home --- */
 @media (max-width: 992px) {

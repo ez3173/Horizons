@@ -34,7 +34,42 @@
         <main>
             {% block body %}{% endblock %}
         </main>
-
+            {% if not (app.request.attributes.get('_route') starts with 'app_admin') %}
+            <footer class="home-footer">
+                <div class="home-footer-inner">
+                    <div class="home-footer-brand">
+                        <span class="home-footer-logo">Horizons</span>
+                        <p class="home-footer-tagline">Le carnet de voyage en ligne pour raconter, organiser et partager vos itinéraires.</p>
+                    </div>
+                    <div class="home-footer-col">
+                        <span class="home-footer-col-title">Explorer</span>
+                        <a href="{{ path('app_journey_index') }}">Tous les carnets</a>
+                        <a href="{{ path('app_journey_index') }}">Catégories</a>
+                    </div>
+                    <div class="home-footer-col">
+                        <span class="home-footer-col-title">Compte</span>
+                        {% if app.user %}
+                            <a href="{{ path('app_journey_my') }}">Mes carnets</a>
+                            <a href="{{ path('app_journey_new') }}">Créer un carnet</a>
+                            <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                        {% else %}
+                            <a href="{{ path('app_login') }}">Connexion</a>
+                            <a href="{{ path('app_register') }}">S'inscrire</a>
+                        {% endif %}
+                    </div>
+                    <div class="home-footer-col">
+                        <span class="home-footer-col-title">À propos</span>
+                        <a href="#">Le projet</a>
+                        <a href="#">Contact</a>
+                    </div>
+                </div>
+                <div class="home-footer-bottom">
+                    <div class="home-footer-bottom-inner" style="text-align: center;">
+                        © {{ "now"|date("Y") }} Horizons · Fait avec soin pour les voyageurs
+                    </div>
+                </div>
+            </footer>
+            {% endif %}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}

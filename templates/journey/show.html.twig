@@ -66,6 +66,12 @@
                 <a href="{{ path('app_journey_edit', {slug: journey.slug}) }}" class="btn-outline">
                     Modifier ce carnet
                 </a>
+                {% if not journey.published %}
+                <form method="post" action="{{ path('app_journey_publish', {slug: journey.slug}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('publish' ~ journey.id) }}">
+                    <button type="submit" class="btn-accent">Publier le carnet</button>
+                </form>
+                {% endif %}
                 <form method="post" action="{{ path('app_journey_delete', {slug: journey.slug}) }}" style="display:inline;">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ journey.getId()) }}">
                     <button type="submit" onclick="return confirm('Supprimer ce carnet ?')" class="btn-delete">

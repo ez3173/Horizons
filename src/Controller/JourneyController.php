@@ -134,7 +134,6 @@ class JourneyController extends AbstractController
 
             // Régénération du slug si le titre a changé
             $journey->setSlug((new Slugify())->slugify($journey->getTitle()));
-
             $entityManager->flush();
 
             $this->addFlash('success', 'Votre carnet a été modifié avec succès !');
@@ -229,6 +228,31 @@ class JourneyController extends AbstractController
 
             $entityManager->persist($comment);
             $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_journey_show', ['slug' => $journey->getSlug()]);
+    }
+    #[Route('/journey/{slug}/publish', name: 'app_journey_publish', methods: ['POST'])]
+    public function publish(
+        string $slug,
+        Request $request,
+        JourneyRepository $journeyRepository,
+        EntityManagerInterface $entityManager
+    ): Response {
+        $journey = $journeyRepository->findOneBy(['slug' => $slug]);
+
+        if (!$journey) {
+            throw $this->createNotFoundException();
+        }
+
+        if ($journey->getAuthor() !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createAccessDeniedException();
+        }
+
+        if ($this->isCsrfTokenValid('publish' . $journey->getId(), $request->request->get('_token'))) {
+            $journey->setPublished(true);
+            $entityManager->flush();
+            $this->addFlash('success', 'Votre carnet est maintenant publié !');
         }
 
         return $this->redirectToRoute('app_journey_show', ['slug' => $journey->getSlug()]);

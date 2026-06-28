@@ -3,11 +3,11 @@
 {% block title %}Créer un carnet — Horizons{% endblock %}
 
 {% block body %}
-<div class="page-container" style="max-width: 720px;">
+<div class="page-container page-container-sm">
 
     <p class="page-kicker">Nouveau carnet</p>
     <h1 class="page-title">Raconter un voyage</h1>
-    <p style="color: var(--color-text-light); margin-bottom: 2rem; line-height: 1.6;">
+    <p class="page-subtitle">
         Renseignez les infos générales, puis ajoutez vos étapes une par une.
     </p>
 
@@ -34,8 +34,8 @@
         <div class="mb-3">
             <label class="file-upload-label" for="{{ form.coverImageFile.vars.id }}">
                 ⛰️ Cliquez pour choisir une image de couverture
-                <span style="display:block;font-size:12px;color:var(--color-text-light);margin-top:4px;">JPEG, PNG, WEBP — 10 Mo max</span>
-                <span id="file-name" style="display:block;margin-top:6px;color:var(--color-accent);font-weight:600;"></span>
+                <span class="file-upload-hint">JPEG, PNG, WEBP — 10 Mo max</span>
+                <span id="file-name" class="file-upload-name"></span>
             </label>
             {{ form_widget(form.coverImageFile) }}
             {{ form_errors(form.coverImageFile) }}
@@ -43,23 +43,23 @@
     </div>
 
     {# Étapes dynamiques via CollectionType #}
-    <div style="margin-top: 2.5rem;">
-        <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom: 0.4rem;">
-            <p class="page-kicker" style="margin-bottom:0;">Étapes du voyage</p>
-            <span id="step-count" style="font-size:13px; color:var(--color-text-light); font-weight:600;">0 étape(s)</span>
+    <div class="steps-section">
+        <div class="steps-section-header">
+            <p class="page-kicker">Étapes du voyage</p>
+            <span id="step-count" class="step-count">0 étape(s)</span>
         </div>
-        <p style="font-size:14px; color:var(--color-text-light); margin-bottom: 1.5rem;">
+        <p class="steps-section-hint">
             Chaque étape représente une partie de votre voyage.
         </p>
 
-        {# data-prototype contient le HTML d'une étape vide généré par Symfony #}
+        {# data-prototype contient le HTML d'une étape vide  #}
         <div id="steps-container" data-prototype="{{ form_widget(form.steps.vars.prototype)|e('html_attr') }}">
             {% for step in form.steps %}
             <div class="step-form-item">
                 <div class="step-form-header">
-                    <div style="display:flex; align-items:center; gap:12px;">
+                    <div class="step-form-header-left">
                         <span class="step-circle">{{ loop.index }}</span>
-                        <span style="font-family: var(--font-title); font-size:18px; font-weight:600;">Étape {{ loop.index }}</span>
+                        <span class="step-label">Étape {{ loop.index }}</span>
                     </div>
                     <button type="button" class="btn-remove-step">✕ Supprimer</button>
                 </div>
@@ -86,7 +86,7 @@
         <button type="submit" class="btn-outline" onclick="document.getElementById('publish_action').value='draft'">
             Enregistrer en brouillon
         </button>
-        <span style="margin-left:auto; font-size:13px; color:var(--color-text-light);">Tout est modifiable plus tard</span>
+        <span class="form-actions-hint">Tout est modifiable plus tard</span>
     </div>
     {{ form_widget(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}
@@ -120,9 +120,9 @@
         div.classList.add('step-form-item');
         div.innerHTML = `
             <div class="step-form-header">
-                <div style="display:flex; align-items:center; gap:12px;">
+                <div class="step-form-header-left">
                     <span class="step-circle">${index + 1}</span>
-                    <span class="step-label" style="font-family: var(--font-title); font-size:18px; font-weight:600;">Étape ${index + 1}</span>
+                    <span class="step-label">Étape ${index + 1}</span>
                 </div>
                 <button type="button" class="btn-remove-step">✕ Supprimer</button>
             </div>

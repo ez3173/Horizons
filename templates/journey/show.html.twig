@@ -8,6 +8,12 @@
     <a href="{{ path('app_journey_index') }}" class="back-link">
         ← Retour aux carnets
     </a>
+    {% for message in app.flashes('success') %}
+        <div class="flash flash-success">{{ message }}</div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="flash flash-error">{{ message }}</div>
+    {% endfor %}
 
     {# Hero : image de couverture + titre + auteur #}
     <div class="show-hero">
@@ -55,14 +61,14 @@
         </div>
     </div>
 
-    {# Description + carte auteur  #}
+    {# Description + carte auteur #}
     <div class="show-body-grid">
         <div class="show-description-block">
             <p class="page-kicker">À propos de ce voyage</p>
             <p class="show-description-text">{{ journey.description }}</p>
 
             {% if app.user and (app.user == journey.author or is_granted('ROLE_ADMIN')) %}
-            <div style="margin-top: 1.5rem; display:flex; gap: 10px;">
+            <div class="show-owner-actions">
                 <a href="{{ path('app_journey_edit', {slug: journey.slug}) }}" class="btn-outline">
                     Modifier ce carnet
                 </a>
@@ -72,7 +78,7 @@
                     <button type="submit" class="btn-accent">Publier le carnet</button>
                 </form>
                 {% endif %}
-                <form method="post" action="{{ path('app_journey_delete', {slug: journey.slug}) }}" style="display:inline;">
+                <form method="post" action="{{ path('app_journey_delete', {slug: journey.slug}) }}">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ journey.getId()) }}">
                     <button type="submit" onclick="return confirm('Supprimer ce carnet ?')" class="btn-delete">
                         Supprimer
@@ -94,7 +100,7 @@
         </div>
     </div>
 
-    {# Étapes avec navigation  interactive #}
+    {# Étapes avec navigation interactive #}
     {% if journey.steps|length > 0 %}
     <div class="show-steps-section">
         <div class="show-steps-header">
@@ -149,7 +155,7 @@
             <div class="show-comment-form-avatar">{{ app.user.username|first|upper }}</div>
             <div class="show-comment-form-inner">
                 <textarea name="content" rows="3" placeholder="Partagez un conseil, une bonne adresse, ce que vous feriez différemment..." class="show-comment-textarea"></textarea>
-                <div style="display:flex; justify-content:flex-end; margin-top: 8px;">
+                <div class="show-comment-submit-row">
                     <button type="submit" class="btn-accent">Publier mon avis</button>
                 </div>
             </div>

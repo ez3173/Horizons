@@ -10,13 +10,13 @@
             <p class="page-kicker">Administration</p>
             <h1 class="page-title">Dashboard</h1>
         </div>
-        <div style="display:flex;gap:10px;">
+        <div class="page-header-actions">
             <a href="{{ path('app_admin_users') }}" class="btn-outline">Utilisateurs</a>
             <a href="{{ path('app_admin_journeys') }}" class="btn-outline">Carnets</a>
         </div>
     </div>
 
-    {# Stats #}
+    {# Stats globales #}
     <div class="admin-stats">
         <div class="admin-stat-card">
             <p class="admin-stat-number">{{ stats.users }}</p>
@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:2rem;">
+    <div class="admin-dashboard-grid">
 
         {# Derniers carnets #}
         <div>

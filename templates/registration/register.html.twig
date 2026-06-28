@@ -3,7 +3,7 @@
 {% block title %}S'inscrire — Horizons{% endblock %}
 
 {% block body %}
-<div class="page-container" style="max-width: 450px;">
+<div class="page-container page-container-xs">
 
     <p class="page-kicker">Rejoindre la communauté</p>
     <h1 class="page-title">Créer un compte</h1>
@@ -21,15 +21,15 @@
             {{ form_errors(registrationForm.agreeTerms) }}
         </div>
 
-        <button type="submit" class="btn-accent" style="width:100%;margin-top:8px;">
+        <button type="submit" class="btn-accent btn-full">
             Créer mon compte
         </button>
 
     {{ form_end(registrationForm) }}
 
-    <p style="font-size:12px;color:var(--color-text-light);text-align:center;margin-top:16px;">
+    <p class="form-footer-link">
         Déjà un compte ?
-        <a href="{{ path('app_login') }}" style="color:var(--color-accent);">Se connecter</a>
+        <a href="{{ path('app_login') }}">Se connecter</a>
     </p>
 
 </div>

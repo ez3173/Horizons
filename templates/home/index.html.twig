@@ -46,138 +46,136 @@
 
 {# 3 derniers carnets publiés mis en avant #}
 {% if featuredJourneys|length > 0 %}
-<section class="home-section">
-    <div class="home-section-inner">
-        <div class="home-section-header">
-            <div>
-                <p class="page-kicker">Sélection du moment</p>
-                <h2 class="home-section-title">Les carnets à la une</h2>
-            </div>
-            <a href="{{ path('app_journey_index') }}" class="home-see-all">Voir tout →</a>
-        </div>
-
-        <div class="home-featured-grid">
-            <a href="{{ path('app_journey_show', {slug: featuredJourneys[0].slug}) }}" class="home-featured-big">
-                {% if featuredJourneys[0].coverImage %}
-                    <img src="{{ asset('uploads/journeys/' ~ featuredJourneys[0].coverImage) }}" alt="{{ featuredJourneys[0].title }}">
-                {% else %}
-                    <img src="https://picsum.photos/seed/feat-big/900/700" alt="{{ featuredJourneys[0].title }}">
-                {% endif %}
-                <div class="home-featured-overlay"></div>
-                <div class="home-featured-content">
-                    {% if featuredJourneys[0].category %}
-                        <span class="home-featured-badge">{{ featuredJourneys[0].category.name }} · À la une</span>
-                    {% endif %}
-                    <h3 class="home-featured-title">{{ featuredJourneys[0].title }}</h3>
-                    <p class="home-featured-desc">{{ featuredJourneys[0].description|slice(0, 100) }}...</p>
-                    <span class="home-featured-meta">{{ featuredJourneys[0].duration }} jours · {{ featuredJourneys[0].budget }} €</span>
+    <section class="home-section">
+        <div class="home-section-inner">
+            <div class="home-section-header">
+                <div>
+                    <p class="page-kicker">Sélection du moment</p>
+                    <h2 class="home-section-title">Les carnets à la une</h2>
                 </div>
-            </a>
+                <a href="{{ path('app_journey_index') }}" class="home-see-all">Voir tout →</a>
+            </div>
 
-            <div class="home-featured-small-col">
-                {% for journey in featuredJourneys|slice(1, 2) %}
-                <a href="{{ path('app_journey_show', {slug: journey.slug}) }}" class="home-featured-small">
-                    {% if journey.coverImage %}
-                        <img src="{{ asset('uploads/journeys/' ~ journey.coverImage) }}" alt="{{ journey.title }}">
+            <div class="home-featured-grid">
+                <a href="{{ path('app_journey_show', {slug: featuredJourneys[0].slug}) }}" class="home-featured-big">
+                    {% if featuredJourneys[0].coverImage %}
+                        <img src="{{ asset('uploads/journeys/' ~ featuredJourneys[0].coverImage) }}" alt="{{ featuredJourneys[0].title }}">
                     {% else %}
-                        <img src="https://picsum.photos/seed/feat-sm-{{ loop.index }}/600/400" alt="{{ journey.title }}">
+                        <img src="https://picsum.photos/seed/feat-big/900/700" alt="{{ featuredJourneys[0].title }}">
                     {% endif %}
                     <div class="home-featured-overlay"></div>
                     <div class="home-featured-content">
-                        {% if journey.category %}
-                            <span class="home-featured-badge-sm">{{ journey.category.name }}</span>
+                        {% if featuredJourneys[0].category %}
+                            <span class="home-featured-badge">{{ featuredJourneys[0].category.name }} · À la une</span>
                         {% endif %}
-                        <h3 class="home-featured-title-sm">{{ journey.title }}</h3>
-                        <span class="home-featured-meta">{{ journey.duration }} jours · {{ journey.budget }} €</span>
+                        <h3 class="home-featured-title">{{ featuredJourneys[0].title }}</h3>
+                        <p class="home-featured-desc">{{ featuredJourneys[0].description|slice(0, 100) }}...</p>
+                        <span class="home-featured-meta">{{ featuredJourneys[0].duration }} jours · {{ featuredJourneys[0].budget }} €</span>
+                    </div>
+                </a>
+
+                <div class="home-featured-small-col">
+                    {% for journey in featuredJourneys|slice(1, 2) %}
+                    <a href="{{ path('app_journey_show', {slug: journey.slug}) }}" class="home-featured-small">
+                        {% if journey.coverImage %}
+                            <img src="{{ asset('uploads/journeys/' ~ journey.coverImage) }}" alt="{{ journey.title }}">
+                        {% else %}
+                            <img src="https://picsum.photos/seed/feat-sm-{{ loop.index }}/600/400" alt="{{ journey.title }}">
+                        {% endif %}
+                        <div class="home-featured-overlay"></div>
+                        <div class="home-featured-content">
+                            {% if journey.category %}
+                                <span class="home-featured-badge-sm">{{ journey.category.name }}</span>
+                            {% endif %}
+                            <h3 class="home-featured-title-sm">{{ journey.title }}</h3>
+                            <span class="home-featured-meta">{{ journey.duration }} jours · {{ journey.budget }} €</span>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endif %}
+
+{# Grille des catégories avec images #}
+{% if categories|length > 0 %}
+    <section class="home-section">
+        <div class="home-section-inner">
+            <div class="home-section-center">
+                <p class="page-kicker">Par envie</p>
+                <h2 class="home-section-title">Où partez-vous ?</h2>
+            </div>
+
+            {% set categoryImages = {
+                'Europe':   'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=500&q=80',
+                'Asie':     'https://images.unsplash.com/photo-1480796927426-f609979314bd?w=500&q=80',
+                'Afrique':  'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=500&q=80',
+                'Roadtrip': 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=500&q=80',
+                'Amérique': 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=500&q=80',
+                'Océanie':  'https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=500&q=80'
+            } %}
+
+            <div class="home-categories-grid">
+                {% for category in categories %}
+                <a href="{{ path('app_journey_index', {category: category.id}) }}" class="home-category-card">
+                    <img src="{{ categoryImages[category.name] ?? 'https://picsum.photos/seed/cat-' ~ loop.index ~ '/500/400' }}" alt="{{ category.name }}">
+                    <div class="home-category-overlay"></div>
+                    <div class="home-category-content">
+                        <span class="home-category-name">{{ category.name }}</span>
                     </div>
                 </a>
                 {% endfor %}
             </div>
         </div>
-    </div>
-</section>
+    </section>
 {% endif %}
 
-{# Grille des catégories avec images  #}
-{% if categories|length > 0 %}
-<section class="home-section">
-    <div class="home-section-inner">
-        <div style="text-align:center; margin-bottom: 2rem;">
-            <p class="page-kicker">Par envie</p>
-            <h2 class="home-section-title">Où partez-vous ?</h2>
-        </div>
-
-        {% set categoryImages = {
-            'Europe':   'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=500&q=80',
-            'Asie':     'https://images.unsplash.com/photo-1480796927426-f609979314bd?w=500&q=80',
-            'Afrique':  'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=500&q=80',
-            'Roadtrip': 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=500&q=80',
-            'Amérique': 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=500&q=80',
-            'Océanie':  'https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=500&q=80'
-        } %}
-
-        <div class="home-categories-grid">
-            {% for category in categories %}
-            <a href="{{ path('app_journey_index', {category: category.id}) }}" class="home-category-card">
-                <img src="{{ categoryImages[category.name] ?? 'https://picsum.photos/seed/cat-' ~ loop.index ~ '/500/400' }}" alt="{{ category.name }}">
-                <div class="home-category-overlay"></div>
-                <div class="home-category-content">
-                    <span class="home-category-name">{{ category.name }}</span>
+    {# Explication du fonctionnement en 3 étapes #}
+    <section class="home-section">
+        <div class="home-section-inner">
+            <div class="home-how-card">
+                <div class="home-section-center">
+                    <p class="page-kicker">Simple comme bonjour</p>
+                    <h2 class="home-section-title">Trois étapes pour partager</h2>
                 </div>
-            </a>
-            {% endfor %}
-        </div>
-    </div>
-</section>
-{% endif %}
-
-{# Explication du fonctionnement en 3 étapes #}
-<section class="home-section">
-    <div class="home-section-inner">
-        <div class="home-how-card">
-            <div style="text-align:center; margin-bottom: 2.5rem;">
-                <p class="page-kicker">Simple comme bonjour</p>
-                <h2 class="home-section-title">Trois étapes pour partager</h2>
-            </div>
-            <div class="home-how-grid">
-                <div class="home-how-item">
-                    <div class="home-how-number">1</div>
-                    <h3 class="home-how-title">Créez votre carnet</h3>
-                    <p class="home-how-text">Titre, durée, budget et catégorie. Les bases de votre voyage en quelques secondes.</p>
-                </div>
-                <div class="home-how-item">
-                    <div class="home-how-number">2</div>
-                    <h3 class="home-how-title">Ajoutez vos étapes</h3>
-                    <p class="home-how-text">Racontez chaque étape avec titre et description. Votre itinéraire prend vie.</p>
-                </div>
-                <div class="home-how-item">
-                    <div class="home-how-number">3</div>
-                    <h3 class="home-how-title">Partagez l'aventure</h3>
-                    <p class="home-how-text">Publiez votre carnet et inspirez les autres voyageurs — ou gardez-le en brouillon.</p>
+                <div class="home-how-grid">
+                    <div class="home-how-item">
+                        <div class="home-how-number">1</div>
+                        <h3 class="home-how-title">Créez votre carnet</h3>
+                        <p class="home-how-text">Titre, durée, budget et catégorie. Les bases de votre voyage en quelques secondes.</p>
+                    </div>
+                    <div class="home-how-item">
+                        <div class="home-how-number">2</div>
+                        <h3 class="home-how-title">Ajoutez vos étapes</h3>
+                        <p class="home-how-text">Racontez chaque étape avec titre et description. Votre itinéraire prend vie.</p>
+                    </div>
+                    <div class="home-how-item">
+                        <div class="home-how-number">3</div>
+                        <h3 class="home-how-title">Partagez l'aventure</h3>
+                        <p class="home-how-text">Publiez votre carnet et inspirez les autres voyageurs — ou gardez-le en brouillon.</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-{# Call to action final #}
-<section class="home-section">
-    <div class="home-section-inner">
-        <div class="home-cta">
-            <div class="home-cta-overlay"></div>
-            <div class="home-cta-content">
-                <h2 class="home-cta-title">Votre prochain carnet commence ici</h2>
-                <p class="home-cta-text">Gratuit, sans limite d'étapes. Gardez la mémoire de vos voyages et donnez des idées à la communauté.</p>
-                {% if app.user %}
-                    <a href="{{ path('app_journey_new') }}" class="home-cta-btn">Créer mon carnet</a>
-                {% else %}
-                    <a href="{{ path('app_register') }}" class="home-cta-btn">Créer mon carnet gratuitement</a>
-                {% endif %}
+    {# Call to action final #}
+    <section class="home-section">
+        <div class="home-section-inner">
+            <div class="home-cta">
+                <div class="home-cta-overlay"></div>
+                <div class="home-cta-content">
+                    <h2 class="home-cta-title">Votre prochain carnet commence ici</h2>
+                    <p class="home-cta-text">Gratuit, sans limite d'étapes. Gardez la mémoire de vos voyages et donnez des idées à la communauté.</p>
+                    {% if app.user %}
+                        <a href="{{ path('app_journey_new') }}" class="home-cta-btn">Créer mon carnet</a>
+                    {% else %}
+                        <a href="{{ path('app_register') }}" class="home-cta-btn">Créer mon carnet gratuitement</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </div>
-</section>
-
-
+    </section>
 
 {% endblock %}

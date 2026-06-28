@@ -8,7 +8,7 @@
     <div class="page-header">
         <div>
             <p class="page-kicker">Carnets de voyage</p>
-            <h1 class="page-title" style="font-size: 38px;">Tous les horizons</h1>
+            <h1 class="page-title page-title-lg">Tous les horizons</h1>
         </div>
         <span class="page-count">{{ journeys.getTotalItemCount() }} carnets</span>
     </div>
@@ -99,9 +99,7 @@
             </div>
         </a>
         {% else %}
-            <p style="color: var(--color-text-light); grid-column: 1/-1; text-align:center; padding: 2rem;">
-                Aucun carnet de voyage pour le moment.
-            </p>
+            <p class="list-empty">Aucun carnet de voyage pour le moment.</p>
         {% endfor %}
     </div>
 

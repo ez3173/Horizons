@@ -1,4 +1,3 @@
-
 /* ============================================================
    1. POLICES & VARIABLES GLOBALES
    ============================================================ */
@@ -43,6 +42,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
 }
+
 main {
     flex: 1;
 }
@@ -104,6 +104,8 @@ h1, h2, h3, h4, h5 {
     background-color: #A8451F;
     color: var(--color-accent-light) !important;
 }
+
+
 /* ============================================================
    4. FOOTER
    ============================================================ */
@@ -176,14 +178,14 @@ h1, h2, h3, h4, h5 {
     padding: 20px 2rem;
     font-size: 13px;
     color: rgba(255,255,255,.5);
-    text-align: center 
+    text-align: center;
 }
 
+
 /* ============================================================
-   4. BOUTONS & COMPOSANTS GÉNÉRIQUES
+   5. BOUTONS & COMPOSANTS GÉNÉRIQUES
    ============================================================ */
 
-/* Bouton plein — version lien (<a>) */
 .btn-accent {
     display: inline-block;
     background-color: var(--color-accent);
@@ -199,7 +201,6 @@ h1, h2, h3, h4, h5 {
     color: var(--color-accent-light) !important;
 }
 
-/* Bouton plein — version <button> */
 button.btn-accent {
     border: none;
     cursor: pointer;
@@ -216,7 +217,6 @@ button.btn-accent:hover {
     background-image: none;
 }
 
-/* Bouton contour — version lien (<a>) */
 .btn-outline {
     display: inline-block;
     border: 1px solid var(--color-accent);
@@ -232,7 +232,6 @@ button.btn-accent:hover {
     color: var(--color-accent-light);
 }
 
-/* Bouton contour — version <button> */
 button.btn-outline {
     cursor: pointer;
     font-family: var(--font-body);
@@ -250,7 +249,6 @@ button.btn-outline:hover {
     color: var(--color-accent-light);
 }
 
-/* Bouton de suppression discret */
 .btn-delete {
     display: inline-block;
     border: 1px solid var(--color-border);
@@ -269,7 +267,7 @@ button.btn-outline:hover {
     color: #c0392b;
 }
 
-/* Boutons hero page d'accueil */
+/* Boutons hero */
 .btn-hero-primary {
     background: var(--color-accent);
     color: #fff;
@@ -305,7 +303,6 @@ button.btn-outline:hover {
     color: #fff;
 }
 
-/* Lien "retour" */
 .back-link {
     font-size: 12px;
     color: var(--color-text-light);
@@ -314,7 +311,6 @@ button.btn-outline:hover {
     margin-bottom: 18px;
 }
 
-/* Lien souligné terracotta */
 .link-terracotta {
     color: var(--color-accent);
     text-decoration: underline;
@@ -327,7 +323,7 @@ button.btn-outline:hover {
 
 
 /* ============================================================
-   5. FORMULAIRES GÉNÉRIQUES
+   6. FORMULAIRES GÉNÉRIQUES
    ============================================================ */
 .horizons-form label {
     font-size: 12px;
@@ -361,14 +357,12 @@ button.btn-outline:hover {
     border-color: var(--color-accent);
 }
 
-/* Grille 2 colonnes pour budget/durée */
 .horizons-form .form-row-2col {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
 }
 
-/* Supprime les flèches des inputs number */
 .horizons-form input[type="number"]::-webkit-outer-spin-button,
 .horizons-form input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -379,7 +373,6 @@ button.btn-outline:hover {
     -moz-appearance: textfield;
 }
 
-/* Upload de fichier — input masqué, label cliquable */
 .horizons-form input[type="file"] {
     display: none;
 }
@@ -401,7 +394,21 @@ button.btn-outline:hover {
     color: var(--color-accent);
 }
 
-/* Checkbox stylisée */
+.file-upload-hint {
+    display: block;
+    font-size: 12px;
+    color: var(--color-text-light);
+    margin-top: 4px;
+}
+
+.file-upload-name {
+    display: block;
+    margin-top: 6px;
+    color: var(--color-accent);
+    font-weight: 600;
+    font-size: 12px;
+}
+
 .horizons-form input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
@@ -432,7 +439,6 @@ button.btn-outline:hover {
     transform: translate(-50%, -50%);
 }
 
-/* Select avec flèche custom */
 .horizons-form select {
     appearance: none;
     -webkit-appearance: none;
@@ -442,7 +448,6 @@ button.btn-outline:hover {
     padding-right: 32px;
 }
 
-/* Ligne checkbox + label alignés */
 .form-check-row {
     display: flex;
     align-items: center;
@@ -487,6 +492,29 @@ button.btn-outline:hover {
     transform: translate(-50%, -50%);
 }
 
+/* Lien sous formulaire (login/register) */
+.form-footer-link {
+    font-size: 12px;
+    color: var(--color-text-light);
+    text-align: center;
+    margin-top: 16px;
+}
+
+.form-footer-link a {
+    color: var(--color-accent);
+}
+
+/* Champ de formulaire avec margin */
+.form-field {
+    margin-bottom: 14px;
+}
+
+/* Bouton plein largeur */
+.btn-full {
+    width: 100%;
+    margin-top: 8px;
+}
+
 /* Messages flash */
 .flash {
     padding: 10px 14px;
@@ -507,18 +535,56 @@ button.btn-outline:hover {
     border: 1px solid #F09595;
 }
 
-/* Badge statut brouillon */
+/* Badges statut */
 .journey-status-draft {
     background: var(--color-border-soft);
     color: var(--color-text-medium);
 }
 
+.badge-status {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.badge-status-published {
+    background: var(--color-secondary-light);
+    color: var(--color-secondary);
+}
+
+.badge-status-draft {
+    background: var(--color-border-soft);
+    color: var(--color-text-medium);
+}
+
+/* Tags catégories admin */
+.journey-category-tag {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.journey-category-accent {
+    background: var(--color-accent-light);
+    color: var(--color-accent);
+}
+
+.journey-category-secondary {
+    background: var(--color-secondary-light);
+    color: var(--color-secondary);
+}
+
 
 /* ============================================================
-   6. PAGE D'ACCUEIL (HOME)
+   7. PAGE D'ACCUEIL (HOME)
    ============================================================ */
 
-/* --- Hero plein écran --- */
 .home-hero {
     position: relative;
     height: 640px;
@@ -584,7 +650,6 @@ button.btn-outline:hover {
     gap: 13px;
 }
 
-/* --- Bandeau de stats --- */
 .home-stats {
     background: var(--color-text-dark);
     color: #fff;
@@ -624,7 +689,6 @@ button.btn-outline:hover {
     color: rgba(255,255,255,.66);
 }
 
-/* --- Sections génériques --- */
 .home-section {
     padding: 5rem 0;
 }
@@ -650,6 +714,12 @@ button.btn-outline:hover {
     margin-top: 8px;
 }
 
+/* Centrage pour sections "Comment ça marche" et catégories */
+.home-section-center {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
 .home-see-all {
     color: var(--color-accent);
     font-weight: 700;
@@ -657,7 +727,6 @@ button.btn-outline:hover {
     text-decoration: none;
 }
 
-/* --- Grille "carnets à la une" --- */
 .home-featured-grid {
     display: grid;
     grid-template-columns: 1.6fr 1fr;
@@ -787,7 +856,6 @@ button.btn-outline:hover {
     margin-bottom: 4px;
 }
 
-/* --- Grille des catégories --- */
 .home-categories-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -838,7 +906,6 @@ button.btn-outline:hover {
     display: block;
 }
 
-/* --- "Comment ça marche" --- */
 .home-how-card {
     background: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -887,7 +954,6 @@ button.btn-outline:hover {
     margin: 0 auto;
 }
 
-/* --- Bloc CTA final --- */
 .home-cta {
     position: relative;
     overflow: hidden;
@@ -943,9 +1009,6 @@ button.btn-outline:hover {
     color: var(--color-accent);
 }
 
-
-
-/* --- Responsive Home --- */
 @media (max-width: 992px) {
     .home-featured-grid      { grid-template-columns: 1fr; }
     .home-featured-small-col { flex-direction: row; }
@@ -965,14 +1028,30 @@ button.btn-outline:hover {
 
 
 /* ============================================================
-   7. PAGE LISTE DES CARNETS
+   8. LAYOUT PAGES INTÉRIEURES
    ============================================================ */
-
-/* Layout générique partagé par toutes les pages intérieures */
 .page-container {
     max-width: 1100px;
     margin: 0 auto;
     padding: 2.5rem 1.75rem;
+}
+
+.page-container-sm {
+    max-width: 720px;
+}
+
+.page-container-md {
+    max-width: 860px;
+}
+
+.page-container-xs {
+    max-width: 450px;
+}
+
+.page-container-narrow {
+    max-width: 600px;
+    text-align: center;
+    padding: 6rem 2rem;
 }
 
 .page-header {
@@ -982,6 +1061,11 @@ button.btn-outline:hover {
     margin-bottom: 1.75rem;
     border-bottom: 1px solid var(--color-border);
     padding-bottom: 1.25rem;
+}
+
+.page-header-actions {
+    display: flex;
+    gap: 10px;
 }
 
 .page-kicker {
@@ -999,12 +1083,74 @@ button.btn-outline:hover {
     color: var(--color-text-dark);
 }
 
+.page-title-lg {
+    font-size: 38px;
+}
+
 .page-count {
     font-size: 12px;
     color: var(--color-text-light);
 }
 
-/* --- Carousel "à la une" --- */
+.page-subtitle {
+    color: var(--color-text-light);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+/* Section vide (état 0 contenu) */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.empty-state-title {
+    font-family: var(--font-title);
+    font-size: 22px;
+    color: var(--color-text-dark);
+    margin-bottom: 10px;
+}
+
+.empty-state-text {
+    font-size: 14px;
+    color: var(--color-text-light);
+    margin-bottom: 1.5rem;
+}
+
+/* Section avec titre + compteur */
+.section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.section-title {
+    font-family: var(--font-title);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--color-text-dark);
+}
+
+.section-count {
+    font-size: 12px;
+    color: var(--color-text-light);
+}
+
+/* Section avec marge basse */
+.section-mb {
+    margin-bottom: 2.5rem;
+}
+
+.section-mb-sm {
+    margin-bottom: 2rem;
+}
+
+
+/* ============================================================
+   9. PAGE LISTE DES CARNETS
+   ============================================================ */
+
 .list-carousel {
     position: relative;
     border-radius: 18px;
@@ -1143,7 +1289,6 @@ button.btn-outline:hover {
     background: #fff;
 }
 
-/* --- Barre de recherche / filtres --- */
 .list-search-bar {
     display: flex;
     gap: 12px;
@@ -1187,7 +1332,14 @@ button.btn-outline:hover {
     padding-right: 36px;
 }
 
-/* --- Grille des cards --- */
+/* Aucun résultat */
+.list-empty {
+    color: var(--color-text-light);
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 2rem;
+}
+
 .list-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1213,11 +1365,27 @@ button.btn-outline:hover {
     box-shadow: 0 22px 40px -26px rgba(51,41,27,.65);
 }
 
+/* Card brouillon légèrement atténuée */
+.list-card-draft {
+    opacity: 0.85;
+}
+
 .list-card-image {
     position: relative;
     height: 188px;
     background: var(--color-border-soft);
     overflow: hidden;
+}
+
+/* Placeholder image manquante */
+.list-card-image-placeholder {
+    width: 100%;
+    height: 100%;
+    background: var(--color-border-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
 }
 
 .list-card-image img {
@@ -1278,9 +1446,25 @@ button.btn-outline:hover {
     font-size: 13px;
     color: var(--color-text-medium);
     font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-/* --- Pagination --- */
+.list-card-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.list-card-link {
+    font-size: 12px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.list-card-link-light { color: var(--color-text-light); }
+.list-card-link-accent { color: var(--color-accent); }
+
 .pagination-wrapper {
     margin-top: 2rem;
     display: flex;
@@ -1330,7 +1514,6 @@ button.btn-outline:hover {
     font-size: 16px;
 }
 
-/* --- Responsive liste --- */
 @media (max-width: 992px) {
     .list-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -1344,10 +1527,9 @@ button.btn-outline:hover {
 
 
 /* ============================================================
-   8. PAGE DÉTAIL D'UN CARNET (show)
+   10. PAGE DÉTAIL D'UN CARNET (show)
    ============================================================ */
 
-/* --- Hero image + titre --- */
 .show-hero {
     position: relative;
     border-radius: 16px;
@@ -1422,7 +1604,6 @@ button.btn-outline:hover {
     color: rgba(255,255,255,.85);
 }
 
-/* --- Barre de stats (durée, budget…) --- */
 .show-stats-bar {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -1458,7 +1639,6 @@ button.btn-outline:hover {
     color: var(--color-text-dark);
 }
 
-/* --- Corps : description + carte auteur --- */
 .show-body-grid {
     display: grid;
     grid-template-columns: 1fr 280px;
@@ -1471,6 +1651,13 @@ button.btn-outline:hover {
     line-height: 1.75;
     color: var(--color-text-medium);
     margin-top: 12px;
+}
+
+/* Actions auteur (modifier, publier, supprimer) */
+.show-owner-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 10px;
 }
 
 .show-author-card {
@@ -1523,7 +1710,6 @@ button.btn-outline:hover {
     color: var(--color-text-light);
 }
 
-/* --- Étapes (nav latérale + panneau de contenu) --- */
 .show-steps-section { margin-bottom: 3rem; }
 
 .show-steps-header {
@@ -1673,7 +1859,6 @@ button.btn-outline:hover {
     color: var(--color-text-medium);
 }
 
-/* --- Commentaires --- */
 .show-comments-section { margin-bottom: 3rem; }
 
 .show-comments-title {
@@ -1718,6 +1903,12 @@ button.btn-outline:hover {
 }
 
 .show-comment-form-inner { flex: 1; }
+
+.show-comment-submit-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
 
 .show-comment-textarea {
     width: 100%;
@@ -1805,7 +1996,6 @@ button.btn-outline:hover {
     padding: 2rem;
 }
 
-/* --- Responsive page détail --- */
 @media (max-width: 768px) {
     .show-stats-bar            { grid-template-columns: repeat(2, 1fr); }
     .show-stat:nth-child(2)    { border-right: none; }
@@ -1817,10 +2007,9 @@ button.btn-outline:hover {
 
 
 /* ============================================================
-   9. FORMULAIRE MULTI-ÉTAPES (création / édition de carnet)
+   11. FORMULAIRE CRÉATION / ÉDITION DE CARNET
    ============================================================ */
 
-/* Carte contenant le formulaire principal */
 .form-card {
     background: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -1837,7 +2026,6 @@ button.btn-outline:hover {
     color: var(--color-text-dark);
 }
 
-/* Barre d'actions en bas du formulaire */
 .form-actions {
     display: flex;
     align-items: center;
@@ -1847,7 +2035,36 @@ button.btn-outline:hover {
     border-top: 1px solid var(--color-border);
 }
 
-/* Cercle numéroté d'une étape */
+.form-actions-hint {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--color-text-light);
+}
+
+/* Section étapes */
+.steps-section {
+    margin-top: 2.5rem;
+}
+
+.steps-section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 0.4rem;
+}
+
+.steps-section-hint {
+    font-size: 14px;
+    color: var(--color-text-light);
+    margin-bottom: 1.5rem;
+}
+
+.step-count {
+    font-size: 13px;
+    color: var(--color-text-light);
+    font-weight: 600;
+}
+
 .step-circle {
     width: 36px;
     height: 36px;
@@ -1863,7 +2080,12 @@ button.btn-outline:hover {
     flex-shrink: 0;
 }
 
-/* Card d'une étape dans le formulaire */
+.step-label {
+    font-family: var(--font-title);
+    font-size: 18px;
+    font-weight: 600;
+}
+
 .step-form-item {
     background: var(--color-surface);
     border: 1px solid var(--color-border);
@@ -1886,7 +2108,12 @@ button.btn-outline:hover {
     margin-bottom: 1.2rem;
 }
 
-/* Bouton suppression d'une étape */
+.step-form-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 .btn-remove-step {
     background: none;
     border: 1px solid var(--color-border);
@@ -1904,7 +2131,6 @@ button.btn-outline:hover {
     border-color: var(--color-accent);
 }
 
-/* Bouton ajout d'une étape */
 .btn-add-step {
     width: 100%;
     padding: 14px;
@@ -1924,10 +2150,171 @@ button.btn-outline:hover {
     border-color: var(--color-accent);
 }
 
+/* Aperçu image couverture en édition */
+.cover-preview {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.cover-preview-img {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid var(--color-border);
+}
+
+/* Zone danger (suppression carnet / compte) */
+.danger-zone {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+}
+
+.danger-zone-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-accent);
+    margin-bottom: 6px;
+}
+
+.danger-zone-text {
+    font-size: 13px;
+    color: var(--color-text-light);
+    margin-bottom: 14px;
+}
+
+/* Bouton suppression inline (danger zone) */
+.btn-delete-inline {
+    background: none;
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
+    padding: 9px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: var(--font-body);
+}
+
 
 /* ============================================================
-   10. BACK-OFFICE ADMIN
+   12. PAGE PROFIL
    ============================================================ */
+
+.profile-card {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-bottom: 2rem;
+}
+
+.profile-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-title);
+    font-size: 30px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-name {
+    font-family: var(--font-title);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    margin-bottom: 4px;
+}
+
+.profile-email {
+    font-size: 13px;
+    color: var(--color-text-light);
+    margin-bottom: 2px;
+}
+
+.profile-since {
+    font-size: 12px;
+    color: var(--color-text-light);
+}
+
+.profile-stats {
+    display: flex;
+    gap: 24px;
+    text-align: center;
+}
+
+.profile-stat-value {
+    font-family: var(--font-title);
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.profile-stat-value-accent   { color: var(--color-accent); }
+.profile-stat-value-medium   { color: var(--color-text-medium); }
+.profile-stat-value-secondary { color: var(--color-secondary); }
+
+.profile-stat-label {
+    font-size: 11px;
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+
+/* ============================================================
+   13. PAGE 404
+   ============================================================ */
+
+.error-404-number {
+    font-family: var(--font-title);
+    font-size: 96px;
+    font-weight: 600;
+    color: var(--color-border);
+    line-height: 1;
+    margin-bottom: 0;
+}
+
+.error-404-title {
+    font-family: var(--font-title);
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    margin-bottom: 12px;
+}
+
+.error-404-text {
+    font-size: 15px;
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+}
+
+.error-404-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+
+/* ============================================================
+   14. BACK-OFFICE ADMIN
+   ============================================================ */
+
 .admin-stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -1955,6 +2342,14 @@ button.btn-outline:hover {
     color: var(--color-text-light);
     text-transform: uppercase;
     letter-spacing: 0.06em;
+}
+
+/* Grid 2 colonnes dashboard */
+.admin-dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 2rem;
 }
 
 .admin-list-item {
@@ -2003,6 +2398,13 @@ button.btn-outline:hover {
 
 .admin-table tr:hover td { background: var(--color-surface); }
 
+.admin-table-link {
+    font-size: 12px;
+    color: var(--color-accent);
+    text-decoration: none;
+}
+
 @media (max-width: 768px) {
-    .admin-stats { grid-template-columns: repeat(2, 1fr); }
+    .admin-stats          { grid-template-columns: repeat(2, 1fr); }
+    .admin-dashboard-grid { grid-template-columns: 1fr; }
 }

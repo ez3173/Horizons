@@ -37,8 +37,7 @@
                 </td>
                 <td>{{ journey.createdAt|date('d/m/Y') }}</td>
                 <td>
-                    <a href="{{ path('app_journey_edit', {slug: journey.slug}) }}"
-                       style="font-size:12px;color:var(--color-accent);">Modifier</a>
+                    <a href="{{ path('app_journey_edit', {slug: journey.slug}) }}" class="admin-table-link">Modifier</a>
                 </td>
             </tr>
             {% endfor %}

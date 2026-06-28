@@ -74,7 +74,7 @@ class JourneyController extends AbstractController
                 }
             }
 
-            $journey->setSlug((new Slugify())->slugify($journey->getTitle()));
+           $journey->setSlug((new Slugify())->slugify($journey->getTitle()) . '-' . substr(uniqid(), -6));
             $journey->setAuthor($this->getUser());
             $journey->setCreatedAt(new \DateTimeImmutable());
 
@@ -132,8 +132,12 @@ class JourneyController extends AbstractController
                 }
             }
 
-            // Régénération du slug si le titre a changé
-            $journey->setSlug((new Slugify())->slugify($journey->getTitle()));
+            // Régénération du slug  si le titre a changé
+            $originalSlug = $slug;
+            $newSlug = (new Slugify())->slugify($journey->getTitle());
+            if (!str_starts_with($originalSlug, $newSlug)) {
+                $journey->setSlug($newSlug . '-' . substr(uniqid(), -6));
+            }
             $entityManager->flush();
 
             $this->addFlash('success', 'Votre carnet a été modifié avec succès !');
